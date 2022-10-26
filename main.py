@@ -32,7 +32,7 @@ while game_is_on:
     carMan.advance_cars()
     for car in carMan.carlist:
         if player1.distance((car.position())) < 10:
-            player1.write("OUCH!  You Lose.")
+            player1.write("OUCH!  You Lose.\nLoser.")
             game_is_on = False
     sleep(0.05)
 
