@@ -7,7 +7,7 @@ from player import Player
 from car_manager import CarManager
 #from scoreboard import Scoreboard
 
-STARTING_CAR_COUNT = 15
+STARTING_CAR_COUNT = 17
 PLAYER_STEP_DIST = 10
 screen = Screen()
 screen.setup(width=600, height=600)
