@@ -2,25 +2,34 @@
 Create the player's turtle
 
 """
-from turtle import Turtle
-STARTING_POSITION = (0, -280)
-MOVE_DISTANCE = 10
-FINISH_LINE_Y = 280
-TURTLE_COLOR = "green"
+import arcade
+from constants import *
+#from turtle import Turtle
 
-class Player(Turtle):
-    """Handles creation of turtle and moving the turtle"""
+class Player(arcade.Sprite):
     def __init__(self):
         """
         Create a turtle at the fixed starting position
         """
         super().__init__()
-        self.shape("turtle")
-        self.color(TURTLE_COLOR)
-        self.penup()
-        self.setposition(STARTING_POSITION)
+        self.texture = arcade.load_texture(RESOURCE_DIR / PLAYER_TEXTURE)
 
-    def go_heading(self, angle, dist):
-        """ Move turtle dist pixels in the direction of angle"""
-        self.seth(angle)
-        self.forward(dist)
+
+# TODO Obsolete code.  Left in as a reference. To be removed when game is functioning
+
+#   # class obs_Player(Turtle):
+#   """Handles creation of turtle and moving the turtle"""
+#   def __init__(self):
+#       """
+#       Create a turtle at the fixed starting position
+#       """
+#       super().__init__()
+#       self.shape("turtle")
+#       self.color(FROG_COLOR)
+#       self.penup()
+#       self.setposition(PLAYER_STARTING_POSITION)
+
+#   def go_heading(self, angle, dist):
+#       """ Move turtle dist pixels in the direction of angle"""
+#       self.seth(angle)
+#       self.forward(dist)

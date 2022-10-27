@@ -2,7 +2,7 @@
 Create a display object so we can format text output
 
 """
-from turtle import Turtle, Screen
+#from turtle import Turtle, Screen
 
 # Define font parameters
 FONT = ("Arial", 14, "bold")
