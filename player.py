@@ -13,6 +13,10 @@ class Player(arcade.Sprite):
         """
         super().__init__()
         self.texture = arcade.load_texture(RESOURCE_DIR / PLAYER_TEXTURE)
+        self.filename = PLAYER_SPRITE_IMG
+        self.center_x = PLAYER_STARTING_POSITION["x"]
+        self.center_y = PLAYER_STARTING_POSITION["y"]
+        self.scale = PLAYER_CHARACTER_SCALING
 
 
 # TODO Obsolete code.  Left in as a reference. To be removed when game is functioning

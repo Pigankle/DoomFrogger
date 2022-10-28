@@ -36,17 +36,10 @@ class GameView(arcade.View):
         self.carbinger_list = arcade.SpriteList(use_spatial_hash=True)
 
         # Set up the player, specifically placing it at these coordinates.
-        #TODO I think the next block can and should be moved into player.py
         self.player_sprite = player.Player()
-        self.player_sprite.filename = PLAYER_SPRITE_IMG
-        self.player_sprite.scale = PLAYER_CHARACTER_SCALING
-        self.player_sprite.center_x = PLAYER_STARTING_POSITION["x"]
-        self.player_sprite.center_y = PLAYER_STARTING_POSITION["y"]
         self.player_list.append(self.player_sprite)
 
         # Create the bounding box
-        # This shows using a loop to place multiple sprites horizontally
-
         for x in range(0, SCREEN_WIDTH, 24):
             wall = arcade.Sprite(":resources:images/tiles/grassMid.png", TILE_SCALING)
             wall.center_x = x
@@ -77,10 +70,7 @@ class GameView(arcade.View):
 
     def on_draw(self):
         """Render the screen."""
-
         self.clear()
-        # Code to draw the screen goes here
-        # Draw our sprites
         self.wall_list.draw()
         self.player_list.draw()
         self.carbinger_list.draw()
@@ -102,7 +92,6 @@ class GameView(arcade.View):
             self.player_sprite.angle = 270
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
-
         if key == arcade.key.UP or key == arcade.key.W:
             self.player_sprite.change_y = 0
         elif key == arcade.key.DOWN or key == arcade.key.S:
@@ -115,6 +104,7 @@ class GameView(arcade.View):
     def update_cars(self):
         for car in self.carbinger_list:
             car.center_x += car.speed
+            car.cooldown -=1
             if car.center_x <0 or car.center_x > SCREEN_WIDTH:
                 car.remove_from_sprite_lists()
                 if len(self.carbinger_list) < MAX_CAR_CT:
@@ -122,8 +112,10 @@ class GameView(arcade.View):
                         self.carbinger_list.append(CarFactory.new_car())
         hitlist = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in hitlist: #NewsFlash
-            self.display_news() #TODO PASS IN THREAT AND LOCATION OF COLLISION
-            print(nf.threat +" Detected at (" + str(nf.center_x)+", "+str(nf.center_y)+")")
+            if nf.cooldown < 0:
+                self.display_news() #TODO PASS IN THREAT AND LOCATION OF COLLISION
+                print(nf.threat +" Detected at (" + str(nf.center_x)+", "+str(nf.center_y)+")")
+                nf.cooldown = 100
 
 
     def display_news(self, ):
