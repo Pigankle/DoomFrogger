@@ -13,17 +13,18 @@ class CarFactory:
         new_car.threat = CAR_TYPES[ind].threat
         new_car.color = CAR_TYPES[ind].color
         new_car.speed  = -CAR_TYPES[ind].speed
+
         new_car.cooldown = -1
 
         leftside = randint(0,1)
         new_x = SCREEN_WIDTH
         new_angle = 0
-        new_y = randint(25,SCREEN_HEIGHT - 25)
-        texture1 = arcade.load_texture(RESOURCE_DIR / CAR_DEFAULT_ICON)
+        new_y = randint(40,SCREEN_HEIGHT - 40)
+        texture1 = arcade.load_texture(RESOURCE_DIR / CAR_TYPES[ind].icon)
         if leftside:
             new_x = 0
             new_car.speed = CAR_TYPES[ind].speed
-            texture1 = arcade.load_texture(RESOURCE_DIR /CAR_DEFAULT_ICON, mirrored = True)
+            texture1 = arcade.load_texture(RESOURCE_DIR / CAR_TYPES[ind].icon, mirrored = True)
         new_car.texture = texture1
         new_car.center_x = new_x
         new_car.center_y= new_y
