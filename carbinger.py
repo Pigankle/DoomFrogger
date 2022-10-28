@@ -9,10 +9,6 @@ from constants import *
 class Carbinger(arcade.Sprite):
     def __init__(self, *args, **kwargs):
         super().__init__(RESOURCE_DIR /CAR_DEFAULT_ICON,CAR_SCALE)
-   #     self.threat = kwargs["threat"]
-   #     self.color =  kwargs["color"]
-   #     self.speed =  kwargs["speed"]
-#        self.off_screen = False
         self.size = 0
         self.shape = ""
         self.color = (33,88,22)
