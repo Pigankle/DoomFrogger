@@ -4,7 +4,7 @@ from pyglet.math import Vec2
 
 import player
 from constants import *
-from car_manager import CarManager
+from car_factory import CarFactory
 from carbinger import Carbinger
 
 
@@ -68,7 +68,7 @@ class GameView(arcade.View):
             self.scene.add_sprite("Walls", wall2)
 
         for i in range(STARTING_CAR_COUNT):
-            new_carbinger = CarManager.new_car()
+            new_carbinger = CarFactory.new_car()
             self.carbinger_list.append((new_carbinger))
 
 
@@ -119,14 +119,14 @@ class GameView(arcade.View):
                 car.remove_from_sprite_lists()
                 if len(self.carbinger_list) < MAX_CAR_CT:
                     for i in range(CAR_SPAWN_RATE):
-                        self.carbinger_list.append(CarManager.new_car())
+                        self.carbinger_list.append(CarFactory.new_car())
         hitlist = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
-        for newsflash in hitlist:
+        for nf in hitlist: #NewsFlash
             self.display_news() #TODO PASS IN THREAT AND LOCATION OF COLLISION
-            print("Collision Detected")
+            print(nf.threat +" Detected at (" + str(nf.center_x)+", "+str(nf.center_y)+")")
 
 
-    def display_news(self):
+    def display_news(self, ):
         #TODO use arcade.draw_text
         pass
 
