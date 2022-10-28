@@ -28,14 +28,15 @@ class car_spec:
     threat: str = 'climate_change'
     color: arcade.Color = arcade.color.RED
     speed: float = 6
-"""THREATS:"""
-#TODO One of the threats should be something like amphibian die off
+    icon: str = "images/carbinger-light.png"
 
-CAR_TYPES = [car_spec("climate_change", arcade.color.RED, 6),
-             car_spec( "famine", arcade.color.BLACK, 1),
-             car_spec( "nuclear_war", arcade.color.RAJAH, 5),
-             car_spec( "pandemic", arcade.color.BRIGHT_GREEN, 4),
-             car_spec( "machine_superintelligence", arcade.color.BRIGHT_NAVY_BLUE, 3),
-             car_spec( "crop_failure", arcade.color.BOYSENBERRY, 2)]
-
-#Horseman icon source: https://www.pngegg.com/en/png-cevbs
+"""THREATS:
+ Icons should be facing to the left if they have left-right orientation
+ Horseman icon source: https://www.pngegg.com/en/png-cevbs
+"""
+CAR_TYPES = [car_spec("climate_change", arcade.color.RED, 6, CAR_DEFAULT_ICON),
+             car_spec( "famine", arcade.color.BLACK, 1, CAR_DEFAULT_ICON),
+             car_spec( "nuclear_war", arcade.color.RAJAH, 5, CAR_DEFAULT_ICON),
+             car_spec( "pandemic", arcade.color.BRIGHT_GREEN, 4, CAR_DEFAULT_ICON),
+             car_spec( "machine_superintelligence", arcade.color.BRIGHT_NAVY_BLUE, 3, CAR_DEFAULT_ICON),
+             car_spec( "crop_failure", arcade.color.BOYSENBERRY, 2, CAR_DEFAULT_ICON)]
