@@ -13,6 +13,7 @@ class CarFactory:
         new_car.threat = CAR_TYPES[ind].threat
         new_car.color = CAR_TYPES[ind].color
         new_car.speed  = -CAR_TYPES[ind].speed
+        new_car.cooldown = -1
 
         leftside = randint(0,1)
         new_x = SCREEN_WIDTH
