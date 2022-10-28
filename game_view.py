@@ -77,7 +77,6 @@ class GameView(arcade.View):
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
-
         if key == arcade.key.UP or key == arcade.key.W:
             self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
             self.player_sprite.angle = 0
@@ -90,6 +89,7 @@ class GameView(arcade.View):
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
             self.player_sprite.angle = 270
+
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
         if key == arcade.key.UP or key == arcade.key.W:
@@ -102,6 +102,7 @@ class GameView(arcade.View):
             self.player_sprite.change_x = 0
 
     def update_cars(self):
+        """Logic for moving cars and expiring offscreen cars"""
         for car in self.carbinger_list:
             car.center_x += car.speed
             car.cooldown -=1
@@ -110,9 +111,13 @@ class GameView(arcade.View):
                 if len(self.carbinger_list) < MAX_CAR_CT:
                     for i in range(CAR_SPAWN_RATE):
                         self.carbinger_list.append(CarFactory.new_car())
+
+    def process_collisions(self):
+        """What happens when cars and player collide"""
         hitlist = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in hitlist: #NewsFlash
             if nf.cooldown < 0:
+                self.jiggle_player()
                 self.display_news() #TODO PASS IN THREAT AND LOCATION OF COLLISION
                 print(nf.threat +" Detected at (" + str(nf.center_x)+", "+str(nf.center_y)+")")
                 nf.cooldown = 100
@@ -122,14 +127,16 @@ class GameView(arcade.View):
         #TODO use arcade.draw_text
         pass
 
+    def jiggle_player(self):
+        """jiggle the player for an animation effect""" #TODO Add animation to strike
+        pass
+
     def on_update(self, delta_time):
         """Movement and game logic"""
         # Move the player with the physics engine
         self.physics_engine.update()
         self.update_cars()
-
-
-
+        self.process_collisions()
 
 def main():
     """Main function"""
