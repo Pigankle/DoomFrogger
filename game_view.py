@@ -103,6 +103,7 @@ class GameView(arcade.View):
                                   xpos = str(int(nf.center_x)),
                                   ypos = str(int(nf.center_y)))
                 nf.cooldown = 100
+            self.player_sprite.isStunned = 4
 
 
     def display_news(self,threat, xpos, ypos ):

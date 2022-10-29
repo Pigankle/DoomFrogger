@@ -17,27 +17,43 @@ class Player(arcade.Sprite):
         self.center_x = PLAYER_STARTING_POSITION["x"]
         self.center_y = PLAYER_STARTING_POSITION["y"]
         self.scale = PLAYER_CHARACTER_SCALING
+        self.isStunned = 0
 
-    def move_keydownd(self, direction):
-        match direction:
-            case "up":
-                self.change_y = PLAYER_MOVEMENT_SPEED
-                self.angle = 0
 
     def move_keydown(self, direction):
         match direction:
-            case (arcade.key.UP):
-                self.change_y = PLAYER_MOVEMENT_SPEED
-                self.angle = 0
-            case (arcade.key.DOWN):
-                self.change_y = -PLAYER_MOVEMENT_SPEED
-                self.angle = 180
-            case (arcade.key.LEFT):
-                self.change_x = -PLAYER_MOVEMENT_SPEED
-                self.angle = 90
-            case (arcade.key.RIGHT):
-                self.change_x = PLAYER_MOVEMENT_SPEED
-                self.angle = 270
+                case (arcade.key.UP):
+                    self.change_y = PLAYER_MOVEMENT_SPEED
+                    self.angle = 0
+                case (arcade.key.DOWN):
+                    self.change_y = -PLAYER_MOVEMENT_SPEED
+                    self.angle = 180
+                case (arcade.key.LEFT):
+                    self.change_x = -PLAYER_MOVEMENT_SPEED
+                    self.angle = 90
+                case (arcade.key.RIGHT):
+                    self.change_x = PLAYER_MOVEMENT_SPEED
+                    self.angle = 270
+
+""" Stunnning doesn't work here:
+    def move_keydown(self, direction):
+        if not self.isStunned:
+            match direction:
+                    case (arcade.key.UP):
+                        self.change_y = PLAYER_MOVEMENT_SPEED
+                        self.angle = 0
+                    case (arcade.key.DOWN):
+                        self.change_y = -PLAYER_MOVEMENT_SPEED
+                        self.angle = 180
+                    case (arcade.key.LEFT):
+                        self.change_x = -PLAYER_MOVEMENT_SPEED
+                        self.angle = 90
+                    case (arcade.key.RIGHT):
+                        self.change_x = PLAYER_MOVEMENT_SPEED
+                        self.angle = 270
+        else:
+            self.isStunned = max(0, self.isStunned - 1 )
+"""
     def move_keyup(self, direction):
         match direction:
             case (arcade.key.UP):
