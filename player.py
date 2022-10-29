@@ -18,13 +18,13 @@ class Player(arcade.Sprite):
         self.center_y = PLAYER_STARTING_POSITION["y"]
         self.scale = PLAYER_CHARACTER_SCALING
 
-    def move_keydown(self, direction):
+    def move_keydownd(self, direction):
         match direction:
             case "up":
                 self.change_y = PLAYER_MOVEMENT_SPEED
                 self.angle = 0
 
-    def move_keyup(self, direction):
+    def move_keydown(self, direction):
         match direction:
             case (arcade.key.UP):
                 self.change_y = PLAYER_MOVEMENT_SPEED
@@ -38,6 +38,16 @@ class Player(arcade.Sprite):
             case (arcade.key.RIGHT):
                 self.change_x = PLAYER_MOVEMENT_SPEED
                 self.angle = 270
+    def move_keyup(self, direction):
+        match direction:
+            case (arcade.key.UP):
+                self.change_y = 0
+            case (arcade.key.DOWN):
+                self.change_y = 0
+            case (arcade.key.LEFT):
+                self.change_x = 0
+            case (arcade.key.RIGHT):
+                self.change_x = 0
 
 # TODO Obsolete code.  Left in as a reference. To be removed when game is functioning
 

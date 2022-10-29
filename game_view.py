@@ -75,44 +75,18 @@ class GameView(arcade.View):
         self.player_list.draw()
         self.carbinger_list.draw()
 
+
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
-        self.player_sprite.move_keyup(key)
-        if key == arcade.key.UP or key == arcade.key.W:
-            self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
-            self.player_sprite.angle = 0
-        elif key == arcade.key.DOWN or key == arcade.key.S:
-            self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
-            self.player_sprite.angle = 180
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
-            self.player_sprite.angle = 90
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
-            self.player_sprite.angle = 270
-        """        if key == arcade.key.UP or key == arcade.key.W:
-            self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
-            self.player_sprite.angle = 0
-        elif key == arcade.key.DOWN or key == arcade.key.S:
-            self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
-            self.player_sprite.angle = 180
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
-            self.player_sprite.angle = 90
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
-            self.player_sprite.angle = 270"""
+        if key in PLAYER_MOVE_KEYS:
+            self.player_sprite.move_keydown(key)
+
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
-        if key == arcade.key.UP or key == arcade.key.W:
-            self.player_sprite.change_y = 0
-        elif key == arcade.key.DOWN or key == arcade.key.S:
-            self.player_sprite.change_y = 0
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = 0
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = 0
+        if key in PLAYER_MOVE_KEYS:
+            self.player_sprite.move_keyup(key)
+
 
     def update_cars(self):
         """Logic for moving cars and expiring offscreen cars"""

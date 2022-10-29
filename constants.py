@@ -7,11 +7,14 @@ SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Doom Frogger"
 PLAYER_CHARACTER_SCALING = 0.1
 TILE_SCALING = 0.1
-PLAYER_MOVEMENT_SPEED = 5
 
+PLAYER_MOVE_KEYS = [arcade.key.UP,
+                    arcade.key.DOWN,
+                    arcade.key.LEFT,
+                    arcade.key.RIGHT]
+PLAYER_MOVEMENT_SPEED = 5
 PLAYER_SPRITE_IMG = "images/FrogSprite.png"
 PLAYER_STARTING_POSITION = {"x":300, "y":20}
-PLAYER_MOVE_DISTANCE = 5
 PLAYER_TEXTURE = "images/FrogSprite.png"
 RESOURCE_DIR = Path(__file__).parent
 
