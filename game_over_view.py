@@ -10,11 +10,10 @@ class GameOverView(View):
         """ This is run once when we switch to this view """
         super().__init__()
         # Load screenshot of game over state
-        self.texture = kwargs["image"]#arcade.load_texture(GAME_OVER_IMAGE_PATH)
+        self.texture = arcade.load_texture(RESOURCE_DIR/ GAME_OVER_IMAGE_PATH)
         self.game_over_text = kwargs["text"]
         self.game_over_xpos = kwargs["xpos"]
         self.game_over_ypos = kwargs["ypos"]
-        self.final_screen = kwargs["image"]
 
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.

@@ -140,7 +140,7 @@ class GameView(arcade.View):
         if (self.is_game_over == True):
             # Take a snapshot of the game state so we can overlay the game over text on top
             image = get_image()
-            image.save(GAME_OVER_IMAGE_PATH, "PNG")
+            image.save(RESOURCE_DIR/ GAME_OVER_IMAGE_PATH, "PNG")
             # Create new game over view using the saved game over parameters
             view = GameOverView(
                 text=self.game_over_text,
