@@ -2,12 +2,20 @@ from pathlib import Path
 import arcade
 from dataclasses import dataclass
 
+# Window
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Doom Frogger"
 PLAYER_CHARACTER_SCALING = 0.1
 TILE_SCALING = 0.1
 
+# Text display
+FONT_SIZE = 16
+FONT_COLOR = (255, 255, 255)
+TEXT_WIDTH = 200
+GAME_OVER_IMAGE_PATH = "./images/game_over.png"
+
+# Game mechanics
 PLAYER_MOVE_KEYS = [arcade.key.UP,
                     arcade.key.DOWN,
                     arcade.key.LEFT,
@@ -17,8 +25,6 @@ PLAYER_SPRITE_IMG = "images/FrogSprite.png"
 PLAYER_STARTING_POSITION = {"x":300, "y":20}
 PLAYER_TEXTURE = "images/FrogSprite.png"
 RESOURCE_DIR = Path(__file__).parent
-
-FONT = ("Arial", 14, "bold")
 
 STARTING_CAR_COUNT = 15
 CAR_SCALE = .05

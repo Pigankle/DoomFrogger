@@ -1,5 +1,9 @@
 import player
 from car_factory import CarFactory
+from arcade import get_image
+from get_news import get_article
+from display import display_text
+from game_over_view import GameOverView
 from constants import *
 
 class GameView(arcade.View):
@@ -32,6 +36,14 @@ class GameView(arcade.View):
         # Set up the player, specifically placing it at these coordinates.
         self.player_sprite = player.Player()
         self.player_list.append(self.player_sprite)
+        
+        # Flag for game status
+        self.is_game_over = False
+
+        # Game over parameters
+        self.game_over_text = ""
+        self.game_over_xpos = 0
+        self.game_over_ypos = 0
 
         # Create the bounding box
         for x in range(0, SCREEN_WIDTH, 24):
@@ -58,7 +70,6 @@ class GameView(arcade.View):
             new_carbinger = CarFactory.new_car()
             self.carbinger_list.append(new_carbinger)
 
-
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.scene.get_sprite_list("Walls") )
 
@@ -68,19 +79,24 @@ class GameView(arcade.View):
         self.wall_list.draw()
         self.player_list.draw()
         self.carbinger_list.draw()
-
+        # Can use below code to draw labels over the cars, but it slows down the program a ton
+        # Potential TODO: figure out how to add labels that don't add overhead? Or simply add a legend?
+        #for car in self.carbinger_list:
+        #    display_text(
+        #        text=car.threat,
+        #        xpos=car.center_x,
+        #        ypos=car.center_y
+        #    )
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
         if key in PLAYER_MOVE_KEYS:
             self.player_sprite.move_keydown(key)
 
-
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
         if key in PLAYER_MOVE_KEYS:
             self.player_sprite.move_keyup(key)
-
 
     def update_cars(self):
         """Logic for moving cars and expiring offscreen cars"""
@@ -99,17 +115,16 @@ class GameView(arcade.View):
         for nf in hitlist: #NewsFlash
             if nf.cooldown < 0:
                 self.jiggle_player() #TODO Move this to player class
-                self.display_news(threat = nf.threat,
-                                  xpos = str(int(nf.center_x)),
-                                  ypos = str(int(nf.center_y)))
+                # Search for related new article, and store article title and URL
+                article = get_article(nf.threat)
+                # Set game over message and set the message to display at the (x,y) position of the collision
+                self.game_over_text = f'GAME OVER!\n{article["text"]}\n{article["url"][0:35]}[...]'
+                self.game_over_xpos = nf.center_x
+                self.game_over_ypos = nf.center_y
+                # Set game over flag so we can draw the game over message and stop the game
+                self.is_game_over = True
                 nf.cooldown = 100
             self.player_sprite.isStunned = 4
-
-
-    def display_news(self,threat, xpos, ypos ):
-        #TODO don't use arcade.draw_text   Use an arcade.Text object
-        #This function should probably be in the display.py class
-        print(f"{threat} Detected at ({xpos}, {ypos})")
 
     def jiggle_player(self):#TODO Add animation to strike.  This should be in player class
         """jiggle the player for an animation effect"""
@@ -121,6 +136,19 @@ class GameView(arcade.View):
         self.physics_engine.update()
         self.update_cars()
         self.process_collisions()
+        # If game is over, switch to the game over view
+        if (self.is_game_over == True):
+            # Take a snapshot of the game state so we can overlay the game over text on top
+            image = get_image()
+            image.save(GAME_OVER_IMAGE_PATH, "PNG")
+            # Create new game over view using the saved game over parameters
+            view = GameOverView(
+                text=self.game_over_text,
+                xpos=self.game_over_xpos,
+                ypos=self.game_over_ypos
+                )
+            # Display the game over view
+            self.window.show_view(view)
 
 def main():
     """Main function"""

@@ -35,7 +35,8 @@ class Player(arcade.Sprite):
                     self.change_x = PLAYER_MOVEMENT_SPEED
                     self.angle = 270
 
-""" Stunnning doesn't work here:
+    """ 
+    Stunnning doesn't work here:
     def move_keydown(self, direction):
         if not self.isStunned:
             match direction:
@@ -53,7 +54,8 @@ class Player(arcade.Sprite):
                         self.angle = 270
         else:
             self.isStunned = max(0, self.isStunned - 1 )
-"""
+    """
+
     def move_keyup(self, direction):
         match direction:
             case (arcade.key.UP):
