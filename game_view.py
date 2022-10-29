@@ -1,16 +1,10 @@
-import arcade
-import random
-from pyglet.math import Vec2
-
 import player
-from constants import *
 from car_factory import CarFactory
-from carbinger import Carbinger
-
+from constants import *
 
 class GameView(arcade.View):
     """
-    Main application class.
+    Main Game Playing Screen class.
     """
 
     def __init__(self):
@@ -30,7 +24,7 @@ class GameView(arcade.View):
         self.scene = arcade.Scene()
 
     def setup(self):
-        """Set up the game here. Call this function to restart the game."""
+        """Set up game board. Call this function to restart the game."""
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
         self.carbinger_list = arcade.SpriteList(use_spatial_hash=True)
@@ -62,7 +56,7 @@ class GameView(arcade.View):
 
         for i in range(STARTING_CAR_COUNT):
             new_carbinger = CarFactory.new_car()
-            self.carbinger_list.append((new_carbinger))
+            self.carbinger_list.append(new_carbinger)
 
 
         # Create the 'physics engine'
@@ -91,7 +85,7 @@ class GameView(arcade.View):
     def update_cars(self):
         """Logic for moving cars and expiring offscreen cars"""
         for car in self.carbinger_list:
-            car.center_x += car.speed
+            car.car_move()
             car.cooldown -=1
             if car.center_x <0 or car.center_x > SCREEN_WIDTH:
                 car.remove_from_sprite_lists()
