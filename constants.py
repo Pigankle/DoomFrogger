@@ -13,7 +13,7 @@ TILE_SCALING = 0.1
 FONT_SIZE = 16
 FONT_COLOR = (255, 255, 255)
 TEXT_WIDTH = 200
-GAME_OVER_IMAGE_PATH = "./images/game_over.png"
+GAME_OVER_IMAGE_PATH = "images/game_over.png"
 
 # Game mechanics
 PLAYER_MOVE_KEYS = [arcade.key.UP,
