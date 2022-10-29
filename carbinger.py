@@ -3,7 +3,7 @@ Create a car object so we can store more attributes about the type of threat rep
 
 """
 #from turtle import Turtle
-import arcade
+import math
 from constants import *
 
 class Carbinger(arcade.Sprite):
@@ -17,6 +17,10 @@ class Carbinger(arcade.Sprite):
     def update(self):
         super.update()
 
+    def car_move(self):
+        if abs(self.speed) <= 2:
+            self.center_y += math.sin(10*math.pi*self.center_x/SCREEN_WIDTH)
+        self.center_x += self.speed
 
 
 
