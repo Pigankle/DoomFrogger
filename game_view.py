@@ -98,18 +98,20 @@ class GameView(arcade.View):
         hitlist = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in hitlist: #NewsFlash
             if nf.cooldown < 0:
-                self.jiggle_player()
-                self.display_news() #TODO PASS IN THREAT AND LOCATION OF COLLISION
-                print(nf.threat +" Detected at (" + str(nf.center_x)+", "+str(nf.center_y)+")")
+                self.jiggle_player() #TODO Move this to player class
+                self.display_news(threat = nf.threat,
+                                  xpos = str(int(nf.center_x)),
+                                  ypos = str(int(nf.center_y)))
                 nf.cooldown = 100
 
 
-    def display_news(self, ):
-        #TODO use arcade.draw_text
-        pass
+    def display_news(self,threat, xpos, ypos ):
+        #TODO don't use arcade.draw_text   Use an arcade.Text object
+        #This function should probably be in the display.py class
+        print(f"{threat} Detected at ({xpos}, {ypos})")
 
-    def jiggle_player(self):
-        """jiggle the player for an animation effect""" #TODO Add animation to strike
+    def jiggle_player(self):#TODO Add animation to strike.  This should be in player class
+        """jiggle the player for an animation effect"""
         pass
 
     def on_update(self, delta_time):
