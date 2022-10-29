@@ -23,6 +23,10 @@ class Carbinger(arcade.Sprite):
             ystep = math.sin(10*math.pi*self.center_x/SCREEN_WIDTH)
             self.angle = math.atan(ystep/self.speed)*90/math.pi
             self.center_y += ystep
+            if self.center_y < 0:
+                self.center_y = 0
+            if self.center_y > SCREEN_HEIGHT:
+                self.center_y = SCREEN_HEIGHT
         self.center_x += self.speed
 
 
