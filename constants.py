@@ -20,11 +20,11 @@ RESOURCE_DIR = Path(__file__).parent
 
 FONT = ("Arial", 14, "bold")
 
-STARTING_CAR_COUNT = 10
+STARTING_CAR_COUNT = 15
 CAR_SCALE = .05
 CAR_DEFAULT_ICON = "images/carbinger-light.png"
 CAR_SPAWN_RATE = 2
-MAX_CAR_CT = 25
+MAX_CAR_CT = 45
 
 @dataclass
 class car_spec:
