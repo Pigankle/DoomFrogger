@@ -18,6 +18,7 @@ class Player(arcade.Sprite):
         self.center_y = PLAYER_STARTING_POSITION["y"]
         self.scale = PLAYER_CHARACTER_SCALING
         self.isStunned = 0
+        self.blinder_count = 5
 
 
     def move_keydown(self, direction):
@@ -34,6 +35,10 @@ class Player(arcade.Sprite):
                 case (arcade.key.RIGHT):
                     self.change_x = PLAYER_MOVEMENT_SPEED
                     self.angle = 270
+
+    def jiggle(self):#TODO Add animation to strike.  This should be in player class
+        """jiggle the player for an animation effect"""
+        pass
 
     """ 
     Stunnning doesn't work here:
