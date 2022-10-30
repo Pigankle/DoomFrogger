@@ -114,21 +114,26 @@ class GameView(arcade.View):
         hitlist = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in hitlist: #NewsFlash
             if nf.cooldown < 0:
-                self.jiggle_player() #TODO Move this to player class
+                self.player_sprite.jiggle()
+                nf.cooldown = 100
+                self.player_sprite.isStunned = 1
+                self.player_sprite.blinder_count -= 1
+            if self.player_sprite.blinder_count < 1:
                 # Search for related new article, and store article title and URL
                 article = get_article(nf.threat)
                 # Set game over message and set the message to display at the (x,y) position of the collision
                 self.game_over_text = f'GAME OVER!\n{article["text"]}\n{article["url"][0:35]}[...]'
                 self.game_over_xpos = nf.center_x
                 self.game_over_ypos = nf.center_y
+                print(self.game_over_text)
                 # Set game over flag so we can draw the game over message and stop the game
                 self.is_game_over = True
-                nf.cooldown = 100
-            self.player_sprite.isStunned = 4
+            #TODO Else add text to a spritelist and have them drift gently off screen
 
-    def jiggle_player(self):#TODO Add animation to strike.  This should be in player class
-        """jiggle the player for an animation effect"""
-        pass
+
+
+
+
 
     def on_update(self, delta_time):
         """Movement and game logic"""
