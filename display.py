@@ -7,14 +7,14 @@ from arcade import Text
 from constants import *
 
 # Function to display text output at specified position
-def display_text(text, xpos, ypos):
+def display_text(text, xpos, ypos, fnt_sz = FONT_SIZE):
     text_obj = Text(
         text=text,
         start_x=xpos,
         start_y=ypos,
         color=FONT_COLOR,
-        font_size=FONT_SIZE, 
         width=TEXT_WIDTH,
+        font_size = fnt_sz,
         align='left', 
         font_name='arial', 
         bold=True,

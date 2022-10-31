@@ -1,4 +1,5 @@
 import player
+import pandas as pd
 from random import uniform
 from car_factory import CarFactory
 from arcade import get_image
@@ -7,6 +8,7 @@ from display import display_text
 from game_over_view import GameOverView
 from constants import *
 from blinders import Blinder
+
 
 
 class GameView(arcade.View):
@@ -25,6 +27,7 @@ class GameView(arcade.View):
         self.player_list = None
         self.carbinger_list = None
         self.blinder_list = None
+        self.collision_text_list = []
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
@@ -84,14 +87,22 @@ class GameView(arcade.View):
         self.player_list.draw()
         self.carbinger_list.draw()
         self.blinder_list.draw()
-        # Can use below code to draw labels over the cars, but it slows down the program a ton
-        # Potential TODO: figure out how to add labels that don't add overhead? Or simply add a legend?
-        #for car in self.carbinger_list:
-        #    display_text(
-        #        text=car.threat,
-        #        xpos=car.center_x,
-        #        ypos=car.center_y
-        #    )
+        self.collision_text_draw()
+
+    def collision_text_draw(self):
+        for txt in self.collision_text_list[:-1]:
+            perm = txt[3]
+            print(f"First: {txt[0]}, Second: {txt[1]}, Third: {txt[2]}")
+            display_text(
+                    text=txt[0],
+                    xpos=txt[1],
+                    ypos=txt[2],
+                    fnt_sz = txt[3]
+                )
+            if uniform(0,1) < .05: #TODO Find Smoother method
+                txt[3] -= 1
+            if txt[3]<1:
+                self.collision_text_list.remove(txt)
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -122,8 +133,6 @@ class GameView(arcade.View):
                     or (bl.center_y <0) or (bl.center_y>SCREEN_HEIGHT)):
                 bl.remove_from_sprite_lists()
 
-
-
     def process_collisions(self):
         """What happens when player collides with other objects"""
         # Process Blinder collisions
@@ -140,6 +149,9 @@ class GameView(arcade.View):
                 nf.cooldown = 100
                 self.player_sprite.isStunned = 1
                 self.player_sprite.blinder_count -= 1
+                self.collision_text_list.append(
+                    [nf.threat, nf.center_x, nf.center_y,
+                     COLLISION_TEXT_PERMANENCE])
             if self.player_sprite.blinder_count < 1:
                 # Search for related new article, and store article title and URL
                 article = get_article(nf.threat)

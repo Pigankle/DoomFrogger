@@ -37,7 +37,7 @@ CAR_SCALE = .05
 CAR_DEFAULT_ICON = "images/carbinger-light.png"
 CAR_SPAWN_RATE = 2
 MAX_CAR_CT = 45
-
+COLLISION_TEXT_PERMANENCE = 10
 @dataclass
 class car_spec:
     threat: str = 'climate_change'
