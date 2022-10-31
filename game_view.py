@@ -92,15 +92,13 @@ class GameView(arcade.View):
     def collision_text_draw(self):
         for txt in self.collision_text_list[:-1]:
             perm = txt[3]
-            print(f"First: {txt[0]}, Second: {txt[1]}, Third: {txt[2]}")
             display_text(
                     text=txt[0],
                     xpos=txt[1],
                     ypos=txt[2],
                     fnt_sz = txt[3]
                 )
-            if uniform(0,1) < .05: #TODO Find Smoother method
-                txt[3] -= 1
+            txt[3] -= .05
             if txt[3]<1:
                 self.collision_text_list.remove(txt)
 
@@ -150,8 +148,9 @@ class GameView(arcade.View):
                 self.player_sprite.isStunned = 1
                 self.player_sprite.blinder_count -= 1
                 self.collision_text_list.append(
-                    [nf.threat, nf.center_x, nf.center_y,
+                    [f"{nf.threat.upper()}\n{self.player_sprite.blinder_count}", nf.center_x, nf.center_y,
                      COLLISION_TEXT_PERMANENCE])
+                print(f"Blinder count is {self.player_sprite.blinder_count}")
             if self.player_sprite.blinder_count < 1:
                 # Search for related new article, and store article title and URL
                 article = get_article(nf.threat)
@@ -162,8 +161,7 @@ class GameView(arcade.View):
                 print(self.game_over_text)
                 # Set game over flag so we can draw the game over message and stop the game
                 self.is_game_over = True
-            #TODO Else add text to a spritelist and have them drift gently off screen
-            print(f"Blinder count is {self.player_sprite.blinder_count}")
+
 
     def spawn_blinders(self):
         """Create new blinders"""
