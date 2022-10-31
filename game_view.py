@@ -1,10 +1,13 @@
 import player
+from random import uniform
 from car_factory import CarFactory
 from arcade import get_image
 from get_news import get_article
 from display import display_text
 from game_over_view import GameOverView
 from constants import *
+from blinders import Blinder
+
 
 class GameView(arcade.View):
     """
@@ -21,6 +24,7 @@ class GameView(arcade.View):
         self.wall_list = None
         self.player_list = None
         self.carbinger_list = None
+        self.blinder_list = None
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
@@ -32,7 +36,7 @@ class GameView(arcade.View):
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
         self.carbinger_list = arcade.SpriteList(use_spatial_hash=True)
-
+        self.blinder_list = arcade.SpriteList(use_spatial_hash=True)
         # Set up the player, specifically placing it at these coordinates.
         self.player_sprite = player.Player()
         self.player_list.append(self.player_sprite)
@@ -79,6 +83,7 @@ class GameView(arcade.View):
         self.wall_list.draw()
         self.player_list.draw()
         self.carbinger_list.draw()
+        self.blinder_list.draw()
         # Can use below code to draw labels over the cars, but it slows down the program a ton
         # Potential TODO: figure out how to add labels that don't add overhead? Or simply add a legend?
         #for car in self.carbinger_list:
@@ -109,10 +114,27 @@ class GameView(arcade.View):
                     for i in range(CAR_SPAWN_RATE):
                         self.carbinger_list.append(CarFactory.new_car())
 
+    def update_blinders(self):
+        """Logic for moving cars and expiring offscreen cars"""
+        for bl in self.blinder_list:
+            bl.blinder_move()
+            if ( (bl.center_x < 0) or (bl.center_x > SCREEN_WIDTH)
+                    or (bl.center_y <0) or (bl.center_y>SCREEN_HEIGHT)):
+                bl.remove_from_sprite_lists()
+
+
+
     def process_collisions(self):
-        """What happens when cars and player collide"""
-        hitlist = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
-        for nf in hitlist: #NewsFlash
+        """What happens when player collides with other objects"""
+        # Process Blinder collisions
+        if self.blinder_list:
+            blinder_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.blinder_list)
+            for bl in blinder_hit_list:  # NewsFlash
+                self.player_sprite.blinder_count += 1
+                bl.remove_from_sprite_lists()
+        # Process_car_collisions
+        car_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
+        for nf in car_hit_list: #NewsFlash
             if nf.cooldown < 0:
                 self.player_sprite.jiggle()
                 nf.cooldown = 100
@@ -129,10 +151,13 @@ class GameView(arcade.View):
                 # Set game over flag so we can draw the game over message and stop the game
                 self.is_game_over = True
             #TODO Else add text to a spritelist and have them drift gently off screen
+            print(f"Blinder count is {self.player_sprite.blinder_count}")
 
-
-
-
+    def spawn_blinders(self):
+        """Create new blinders"""
+        if uniform(0,1) < BLINDER_SPAWN_RATE:
+            bl = Blinder()
+            self.blinder_list.append(bl)
 
 
     def on_update(self, delta_time):
@@ -140,8 +165,10 @@ class GameView(arcade.View):
         # Move the player with the physics engine
         self.physics_engine.update()
         self.update_cars()
+        self.update_blinders()
         self.process_collisions()
         # If game is over, switch to the game over view
+        self.spawn_blinders()
         if (self.is_game_over == True):
             # Take a snapshot of the game state so we can overlay the game over text on top
             image = get_image()
