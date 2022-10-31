@@ -8,7 +8,7 @@ SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Doom Frogger"
 TILE_SCALING = 0.1
 
-# Text display
+"""Text display"""
 FONT_SIZE = 16
 FONT_COLOR = (255, 255, 255)
 TEXT_WIDTH = 200
