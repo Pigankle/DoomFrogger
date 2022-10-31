@@ -1,5 +1,5 @@
 from arcade import View, set_viewport
-from display import display_text
+from display import *
 from constants import *
 
 # View for when the game is over
@@ -24,7 +24,7 @@ class GameOverView(View):
         self.clear()
         self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
                                 SCREEN_WIDTH, SCREEN_HEIGHT)
-        display_text(
+        display_headline_text(
           text=self.game_over_text,
           xpos=self.game_over_xpos,
           ypos=self.game_over_ypos

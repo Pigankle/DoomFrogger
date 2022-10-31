@@ -4,7 +4,7 @@ from random import uniform
 from car_factory import CarFactory
 from arcade import get_image
 from get_news import get_article
-from display import display_text
+from display import *
 from game_over_view import GameOverView
 from constants import *
 from blinders import Blinder
@@ -92,11 +92,12 @@ class GameView(arcade.View):
     def collision_text_draw(self):
         for txt in self.collision_text_list[:-1]:
             perm = txt[3]
-            display_text(
+            display_collision_text(
                     text=txt[0],
                     xpos=txt[1],
                     ypos=txt[2],
-                    fnt_sz = txt[3]
+                    fnt_sz = txt[3],
+                    clr = txt[4]
                 )
             txt[3] -= .05
             if txt[3]<1:
@@ -143,13 +144,11 @@ class GameView(arcade.View):
         car_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in car_hit_list: #NewsFlash
             if nf.cooldown < 0:
-                self.player_sprite.jiggle()
                 nf.cooldown = 100
-                self.player_sprite.isStunned = 1
                 self.player_sprite.blinder_count -= 1
                 self.collision_text_list.append(
                     [f"{nf.threat.upper()}\n{self.player_sprite.blinder_count}", nf.center_x, nf.center_y,
-                     COLLISION_TEXT_PERMANENCE])
+                     COLLISION_TEXT_PERMANENCE, nf.color])
                 print(f"Blinder count is {self.player_sprite.blinder_count}")
             if self.player_sprite.blinder_count < 1:
                 # Search for related new article, and store article title and URL
