@@ -83,15 +83,14 @@ class GameView(arcade.View):
     def on_draw(self):
         """Render the screen."""
         self.clear()
+        self.collision_text_draw()
         self.wall_list.draw()
         self.player_list.draw()
         self.carbinger_list.draw()
         self.blinder_list.draw()
-        self.collision_text_draw()
 
     def collision_text_draw(self):
-        for txt in self.collision_text_list[:-1]:
-            perm = txt[3]
+        for txt in self.collision_text_list:
             display_collision_text(
                     text=txt[0],
                     xpos=txt[1],
@@ -100,7 +99,7 @@ class GameView(arcade.View):
                     clr = txt[4]
                 )
             txt[3] -= .05
-            if txt[3]<1:
+            if txt[3]<2:
                 self.collision_text_list.remove(txt)
 
     def on_key_press(self, key, modifiers):
@@ -146,10 +145,10 @@ class GameView(arcade.View):
             if nf.cooldown < 0:
                 nf.cooldown = 100
                 self.player_sprite.blinder_count -= 1
-                self.collision_text_list.append(
-                    [f"{nf.threat.upper()}\n{self.player_sprite.blinder_count}", nf.center_x, nf.center_y,
-                     COLLISION_TEXT_PERMANENCE, nf.color])
-                print(f"Blinder count is {self.player_sprite.blinder_count}")
+                collision_string = f"{nf.threat.upper()}\n{self.player_sprite.blinder_count}"
+                self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
+                                                    COLLISION_TEXT_PERMANENCE, nf.color])
+                print(f"Blinder count is {self.player_sprite.blinder_count},\n    collision string is {collision_string}")
             if self.player_sprite.blinder_count < 1:
                 self.end_game(nf)
 
