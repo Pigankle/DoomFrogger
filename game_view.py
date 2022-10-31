@@ -151,16 +151,19 @@ class GameView(arcade.View):
                      COLLISION_TEXT_PERMANENCE, nf.color])
                 print(f"Blinder count is {self.player_sprite.blinder_count}")
             if self.player_sprite.blinder_count < 1:
-                # Search for related new article, and store article title and URL
-                article = get_article(nf.threat)
-                # Set game over message and set the message to display at the (x,y) position of the collision
-                self.game_over_text = f'GAME OVER!\n{article["text"]}\n{article["url"][0:35]}[...]'
-                self.game_over_xpos = nf.center_x
-                self.game_over_ypos = nf.center_y
-                print(self.game_over_text)
-                # Set game over flag so we can draw the game over message and stop the game
-                self.is_game_over = True
+                self.end_game(nf)
 
+    def end_game(self,nf=arcade.Sprite):
+
+        # Search for related new article, and store article title and URL
+        article = get_article(nf.threat)
+        # Set game over message and set the message to display at the (x,y) position of the collision
+        self.game_over_text = f'GAME OVER!\n{article["text"]}\n{article["url"][0:35]}[...]'
+        self.game_over_xpos = nf.center_x
+        self.game_over_ypos = nf.center_y
+        print(self.game_over_text)
+        # Set game over flag so we can draw the game over message and stop the game
+        self.is_game_over = True
 
     def spawn_blinders(self):
         """Create new blinders"""
