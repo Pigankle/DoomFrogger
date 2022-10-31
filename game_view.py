@@ -179,6 +179,7 @@ class GameView(arcade.View):
         # Move the player with the physics engine
         self.physics_engine.update()
         self.update_cars()
+        self.player_sprite.update_animation()
         self.update_blinders()
         self.process_collisions()
         # If game is over, switch to the game over view
