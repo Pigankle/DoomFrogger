@@ -98,8 +98,8 @@ class GameView(arcade.View):
                     fnt_sz = txt[3],
                     clr = txt[4]
                 )
-            txt[3] -= .05
-            if txt[3]<2:
+            txt[3] -= txt[5]
+            if txt[3]<3:
                 self.collision_text_list.remove(txt)
 
     def on_key_press(self, key, modifiers):
@@ -139,6 +139,9 @@ class GameView(arcade.View):
             for bl in blinder_hit_list:  # NewsFlash
                 self.player_sprite.blinder_count += 1
                 bl.remove_from_sprite_lists()
+                self.collision_text_list.append([str(self.player_sprite.blinder_count),
+                                                 bl.center_x, bl.center_y, BLINDER_HIT_TEXT_PERMANENCE , BLINDER_HIT_TEXT_COLOR, BLINDER_HIT_TEXT_DECAY_RATE])
+
         # Process_car_collisions
         car_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in car_hit_list: #NewsFlash
@@ -147,7 +150,7 @@ class GameView(arcade.View):
                 self.player_sprite.blinder_count -= 1
                 collision_string = f"{nf.threat.upper()}\n{self.player_sprite.blinder_count}"
                 self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
-                                                    COLLISION_TEXT_PERMANENCE, nf.color])
+                                                 CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
                 print(f"Blinder count is {self.player_sprite.blinder_count},\n    collision string is {collision_string}")
             if self.player_sprite.blinder_count < 1:
                 self.end_game(nf)
