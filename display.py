@@ -30,7 +30,7 @@ def display_collision_text(text, xpos, ypos, fnt_sz, clr):
         color=clr,
         width=TEXT_WIDTH,
         font_size = fnt_sz,
-        align='center',
+        align='left',
         font_name='comic',
         bold=True,
         multiline=True
