@@ -1,4 +1,5 @@
 from game_view import GameView
+from get_news import request_all_articles, stock_all_articles
 from constants import *
 
 
@@ -25,6 +26,10 @@ class SplashView(arcade.View):
     """
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
+        # Request article text and stored parsed html
+        request_all_articles()
+        # Find thematic articles from parsed html and save in list
+        saved_articles = stock_all_articles(num_articles = NUM_ARTICLES)
         game_view = GameView()
-        game_view.setup()
+        game_view.setup(articles=saved_articles)
         self.window.show_view(game_view)

@@ -5,15 +5,13 @@ import player
 from random import uniform
 from car_factory import CarFactory
 from arcade import get_image
-from get_news import get_article
+from get_news import replenish_articles
 from display import *
 from game_over_view import GameOverView
 from constants import *
 from blinders import Blinder
 from smoke import Smoke
 from particle import Particle
-
-
 
 class GameView(arcade.View):
     """
@@ -39,7 +37,7 @@ class GameView(arcade.View):
         self.physics_engine = None
         self.scene = arcade.Scene()
 
-    def setup(self):
+    def setup(self, *args, **kwargs):
         """Set up game board. Call this function to restart the game."""
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
@@ -49,12 +47,13 @@ class GameView(arcade.View):
         # Set up the player, specifically placing it at these coordinates.
         self.player_sprite = player.Player()
         self.player_list.append(self.player_sprite)
+        # Set up list of articles for collisions
+        self.article_list = kwargs["articles"]
         
         # Flag for game status
         self.is_game_over = False
-
         # Game over parameters
-        self.game_over_text = ""
+        self.game_over_text = "GAME OVER!"
         self.game_over_xpos = 0
         self.game_over_ypos = 0
 
@@ -137,7 +136,7 @@ class GameView(arcade.View):
             if ( (bl.center_x < 0) or (bl.center_x > SCREEN_WIDTH)
                     or (bl.center_y <0) or (bl.center_y>SCREEN_HEIGHT)):
                 bl.remove_from_sprite_lists()
-
+        
     def process_collisions(self):
         """What happens when player collides with other objects"""
         # Process Blinder collisions
@@ -155,7 +154,9 @@ class GameView(arcade.View):
             if nf.cooldown < 0:
                 nf.cooldown = 100
                 self.player_sprite.blinder_count -= 1
-                collision_string = f"{nf.threat.upper()}\n{self.player_sprite.blinder_count}"
+                # Get an article related to the threat, or fetch new ones if no articles exist
+                article = replenish_articles(threat=nf.threat, stored_articles=self.article_list)
+                collision_string = f"{nf.threat.upper()}\n{article.upper()}\n{self.player_sprite.blinder_count}"
                 self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
                                                  CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
                 print(f"Blinder count is {self.player_sprite.blinder_count},\n    collision string is {collision_string}")
@@ -174,14 +175,9 @@ class GameView(arcade.View):
 
 
     def end_game(self,nf=arcade.Sprite):
-
-        # Search for related new article, and store article title and URL
-        article = get_article(nf.threat)
-        # Set game over message and set the message to display at the (x,y) position of the collision
-        self.game_over_text = f'GAME OVER!\n{article["text"]}\n{article["url"][0:35]}[...]'
+        # Set game over message to display at the (x,y) position of the collision
         self.game_over_xpos = nf.center_x
         self.game_over_ypos = nf.center_y
-        print(self.game_over_text)
         # Set game over flag so we can draw the game over message and stop the game
         self.is_game_over = True
 

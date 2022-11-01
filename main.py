@@ -1,9 +1,6 @@
 from constants import *
 from splash_view import SplashView
-
-#from game_view import GameView
-# from instruction_view import InstructionView
-
+#from instruction_view import InstructionView
 
 def main():
     """launch a new game window with start_view"""
