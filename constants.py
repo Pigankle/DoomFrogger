@@ -131,37 +131,3 @@ KEYWORDS = {
     "path": "/agriculture",
     "keywords": ["failure", "drought", "flood", "struggle", "pest", "locust", "shortage", "flu", "disease", "rot", "blight"]},
 }
-
-"""ARTICLE SEARCH PARAMETERS"""
-NUM_ARTICLES = 2
-
-# Define news website URLs
-SEARCH_URL = "https://apnews.com/hub"
-OUTPUT_URL = "https://apnews.com"
-
-# Keywords for themes
-KEYWORDS = {
-  "climate_change": {
-    "path": "/climate-change", 
-    "keywords": ["environment", "greenhouse", "climate"],
-    },
-  "famine": {
-    "path": "/famine",
-    "keywords": ["famine", "hunger", "starve", "starving", "shortage"],
-    },
-  "nuclear_war": {
-    "path": "/nuclear-weapons",
-    "keywords": ["nuclear", "radioactive", "russia", "ukraine", "north korea"]
-    },
-  "pandemic": {
-    "path": "/health",
-    "keywords": ["covid", "pandemic", "flu", "pox", "infection"],
-    },
-  "machine_superintelligence": {
-    "path": "/artificial-intelligence",
-    "keywords": ["artificial-inte", "artificial intelligence", "robot", "superintelligen"]
-    },
-  "crop_failure": {
-    "path": "/agriculture",
-    "keywords": ["failure", "drought", "flood", "struggle", "pest", "locust", "shortage", "flu", "disease", "rot", "blight"]},
-}
