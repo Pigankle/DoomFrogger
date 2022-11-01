@@ -1,5 +1,7 @@
+#import arcade
+
 import player
-import pandas as pd
+#import pandas as pd
 from random import uniform
 from car_factory import CarFactory
 from arcade import get_image
@@ -8,6 +10,8 @@ from display import *
 from game_over_view import GameOverView
 from constants import *
 from blinders import Blinder
+from smoke import Smoke
+from particle import Particle
 
 
 
@@ -28,6 +32,7 @@ class GameView(arcade.View):
         self.carbinger_list = None
         self.blinder_list = None
         self.collision_text_list = []
+        self.explosions_list = None
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
@@ -40,6 +45,7 @@ class GameView(arcade.View):
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
         self.carbinger_list = arcade.SpriteList(use_spatial_hash=True)
         self.blinder_list = arcade.SpriteList(use_spatial_hash=True)
+        self.explosions_list = arcade.SpriteList()
         # Set up the player, specifically placing it at these coordinates.
         self.player_sprite = player.Player()
         self.player_list.append(self.player_sprite)
@@ -88,6 +94,7 @@ class GameView(arcade.View):
         self.player_list.draw()
         self.carbinger_list.draw()
         self.blinder_list.draw()
+        self.explosions_list.draw()
 
     def collision_text_draw(self):
         for txt in self.collision_text_list:
@@ -152,8 +159,19 @@ class GameView(arcade.View):
                 self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
                                                  CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
                 print(f"Blinder count is {self.player_sprite.blinder_count},\n    collision string is {collision_string}")
+                self.car_explosion(nf)
             if self.player_sprite.blinder_count < 1:
                 self.end_game(nf)
+    def car_explosion(self,nf):
+        for i in range(PARTICLE_COUNT):
+            particle = Particle(self.explosions_list)
+            particle.position = nf.position
+            self.explosions_list.append(particle)
+
+        smoke = Smoke(50)
+        smoke.position = nf.position
+        self.explosions_list.append(smoke)
+
 
     def end_game(self,nf=arcade.Sprite):
 
@@ -182,6 +200,7 @@ class GameView(arcade.View):
         self.player_sprite.update_animation()
         self.update_blinders()
         self.process_collisions()
+        self.explosions_list.update()
         # If game is over, switch to the game over view
         self.spawn_blinders()
         if (self.is_game_over == True):

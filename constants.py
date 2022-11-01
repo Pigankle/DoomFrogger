@@ -46,6 +46,7 @@ CAR_HIT_TEXT_PERMANENCE = 15
 CAR_HIT_TEXT_DECAY_RATE = 0.2
 
 
+
 @dataclass
 class car_spec:
     threat: str = 'climate_change'
@@ -63,3 +64,38 @@ CAR_TYPES = [car_spec("climate_change", arcade.color.RED, 6, CAR_DEFAULT_ICON),
              car_spec( "pandemic", arcade.color.BRIGHT_GREEN, 4, CAR_DEFAULT_ICON),
              car_spec( "machine_superintelligence", arcade.color.BRIGHT_NAVY_BLUE, 3, CAR_DEFAULT_ICON),
              car_spec( "crop_failure", arcade.color.BOYSENBERRY, 2, CAR_DEFAULT_ICON)]
+
+
+""" --- Explosion Particles Related"""
+
+# How fast the particle will accelerate down. Make 0 if not desired
+PARTICLE_GRAVITY = 0.05
+# How fast to fade the particle
+PARTICLE_FADE_RATE = 8
+# How fast the particle moves. Range is from 2.5 <--> 5 with 2.5 and 2.5 set.
+PARTICLE_MIN_SPEED = 2.5
+PARTICLE_SPEED_RANGE = 2.5
+# How many particles per explosion
+PARTICLE_COUNT = 20
+# How big the particle
+PARTICLE_RADIUS = 3
+# Possible particle colors
+PARTICLE_COLORS = [arcade.color.ALIZARIN_CRIMSON,
+                   arcade.color.COQUELICOT,
+                   arcade.color.LAVA,
+                   arcade.color.KU_CRIMSON,
+                   arcade.color.DARK_TANGERINE]
+# Chance we'll flip the texture to white and make it 'sparkle'
+PARTICLE_SPARKLE_CHANCE = 0.02
+# --- Smoke
+# Note: Adding smoke trails makes for a lot of sprites and can slow things
+# down. If you want a lot, it will be necessary to move processing to GPU
+# using transform feedback. If to slow, just get rid of smoke.
+# Start scale of smoke, and how fast is scales up
+SMOKE_START_SCALE = 0.25
+SMOKE_EXPANSION_RATE = 0.03
+# Rate smoke fades, and rises
+SMOKE_FADE_RATE = 7
+SMOKE_RISE_RATE = 0.5
+# Chance we leave smoke trail
+SMOKE_CHANCE = 0.25
