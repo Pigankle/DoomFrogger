@@ -205,13 +205,13 @@ class GameView(arcade.View):
         self.spawn_blinders()
         if (self.is_game_over == True):
             # Take a snapshot of the game state so we can overlay the game over text on top
-            image = get_image()
-            image.save(RESOURCE_DIR/ GAME_OVER_IMAGE_PATH, "PNG")
+            game_over_texture = arcade.Texture("game over screenshot", get_image())
             # Create new game over view using the saved game over parameters
             view = GameOverView(
                 text=self.game_over_text,
                 xpos=self.game_over_xpos,
-                ypos=self.game_over_ypos
+                ypos=self.game_over_ypos,
+                txtr=game_over_texture
                 )
             # Display the game over view
             self.window.show_view(view)

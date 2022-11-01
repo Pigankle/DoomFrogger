@@ -9,8 +9,7 @@ class GameOverView(View):
     def __init__(self, *args, **kwargs):
         """ This is run once when we switch to this view """
         super().__init__()
-        # Load screenshot of game over state
-        self.texture = arcade.load_texture(RESOURCE_DIR/ GAME_OVER_IMAGE_PATH)
+        self.texture = kwargs["txtr"]
         self.game_over_text = kwargs["text"]
         self.game_over_xpos = kwargs["xpos"]
         self.game_over_ypos = kwargs["ypos"]
