@@ -1,4 +1,5 @@
 from constants import *
+from splash_view import SplashView
 from game_view import GameView
 #from instruction_view import InstructionView
 
@@ -6,8 +7,7 @@ from game_view import GameView
 def main():
     """launch a new game window with start_view"""
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    start_view = GameView()
-    start_view.setup()
+    start_view = SplashView()
     window.show_view(start_view)
 
     arcade.run()
