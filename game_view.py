@@ -80,7 +80,7 @@ class GameView(arcade.View):
             self.scene.add_sprite("Walls", wall2)
 
         for i in range(STARTING_CAR_COUNT):
-            new_carbinger = CarFactory.new_car()
+            new_carbinger = CarFactory.build_car()
             self.carbinger_list.append(new_carbinger)
 
         # Create the 'physics engine'
@@ -128,7 +128,7 @@ class GameView(arcade.View):
                 car.remove_from_sprite_lists()
                 if len(self.carbinger_list) < MAX_CAR_CT:
                     for i in range(CAR_SPAWN_RATE):
-                        self.carbinger_list.append(CarFactory.new_car())
+                        self.carbinger_list.append(CarFactory.build_car())
 
     def update_blinders(self):
         """Logic for moving cars and expiring offscreen cars"""

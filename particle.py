@@ -3,8 +3,10 @@ import math
 from constants import *
 from smoke import Smoke
 
+
 class Particle(arcade.SpriteCircle):
     """ Explosion particle """
+
     def __init__(self, my_list):
         # Choose a random color
         color = random.choice(PARTICLE_COLORS)
@@ -30,6 +32,7 @@ class Particle(arcade.SpriteCircle):
 
         # What list do we add smoke particles to?
         self.my_list = my_list
+
     def update(self):
         """ Update the particle """
         if self.my_alpha <= PARTICLE_FADE_RATE:

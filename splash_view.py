@@ -1,6 +1,6 @@
-import arcade
 from game_view import GameView
 from constants import *
+
 
 class SplashView(arcade.View):
     """ View to show when game is over """
@@ -11,12 +11,11 @@ class SplashView(arcade.View):
         # Load screenshot of game over state
         self.texture = arcade.load_texture(RESOURCE_DIR / SPLASH_IMAGE)
 
-
     def on_draw(self):
         """ Draw this view """
         self.clear()
         self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-                                SCREEN_WIDTH*.8, SCREEN_HEIGHT*.8)
+                                SCREEN_WIDTH * .8, SCREEN_HEIGHT * .8)
         arcade.draw_text("Click to advance", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75,
                          arcade.color.GRAY, font_size=16, anchor_x="center")
 

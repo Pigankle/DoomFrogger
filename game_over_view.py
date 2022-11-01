@@ -2,6 +2,7 @@ from arcade import View, set_viewport
 from display import *
 from constants import *
 
+
 # View for when the game is over
 class GameOverView(View):
     """ View to show when game is over """
@@ -24,12 +25,12 @@ class GameOverView(View):
         self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
                                 SCREEN_WIDTH, SCREEN_HEIGHT)
         display_headline_text(
-          text=self.game_over_text,
-          xpos=self.game_over_xpos,
-          ypos=self.game_over_ypos
+            text=self.game_over_text,
+            xpos=self.game_over_xpos,
+            ypos=self.game_over_ypos
         )
 
-    #def on_mouse_press(self, _x, _y, _button, _modifiers):
+    # def on_mouse_press(self, _x, _y, _button, _modifiers):
     #    """ If the user presses the mouse button, re-start the game. """
     #    game_view = GameView() TODO: figure out how to do this without circular import
     #    game_view.setup()

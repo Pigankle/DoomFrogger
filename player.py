@@ -1,12 +1,10 @@
 """
 Create the player's turtle
-
 """
 import math
-
-import arcade
 from constants import *
-#from turtle import Turtle
+# from turtle import Turtle
+
 
 class Player(arcade.Sprite):
     def __init__(self):
@@ -22,16 +20,15 @@ class Player(arcade.Sprite):
         self.is_moving = False
         self.blinder_count = 5
 
-        #ANIMATION
+        # ANIMATION
         self.cur_texture = 1
-        ##Load Textures
+        # Load Textures
         filename0 = RESOURCE_DIR / "images/FrogSprite_moveL.png"
         filename1 = RESOURCE_DIR / "images/FrogSprite_moveR.png"
         self.walk_textures = [arcade.load_texture(filename0),
                               arcade.load_texture(filename0),
                               arcade.load_texture(filename1),
                               arcade.load_texture(filename1)]
-
 
     def move_keydown(self, direction):
         """Behavior when a key is pressed down"""
@@ -49,7 +46,6 @@ class Player(arcade.Sprite):
                     self.change_x = PLAYER_MOVEMENT_SPEED
                     self.angle = 0
         self.is_moving = True
-
 
     def move_keyup(self, direction):
         """behavior when a key is released"""
@@ -74,13 +70,13 @@ class Player(arcade.Sprite):
         else:
             heading = math.atan(self.change_y / self.change_x)
             self.angle = math.degrees(heading)
-            if self.change_x <0:
+            if self.change_x < 0:
                 self.angle -= 180
 
     def update_animation(self):
         """Animates the frog sprite as it moves around the screen"""
         self.fix_orientation()
-        if self.velocity[0] != 0 or self.velocity[1] !=0:
+        if self.velocity[0] != 0 or self.velocity[1] != 0:
             self.is_moving = True
         if self.is_moving:
             self.cur_texture += 1

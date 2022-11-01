@@ -1,8 +1,9 @@
-import arcade
 from constants import *
+
 
 class Smoke(arcade.SpriteCircle):
     """ This represents a puff of smoke """
+
     def __init__(self, size):
         super().__init__(size, arcade.color.LIGHT_GRAY, soft=True)
         self.change_y = SMOKE_RISE_RATE
@@ -19,4 +20,3 @@ class Smoke(arcade.SpriteCircle):
             self.center_x += self.change_x
             self.center_y += self.change_y
             self.scale += SMOKE_EXPANSION_RATE
-
