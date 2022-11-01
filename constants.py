@@ -99,7 +99,7 @@ SMOKE_RISE_RATE = 0.5
 SMOKE_CHANCE = 0.25
 
 """ARTICLE SEARCH PARAMETERS"""
-NUM_ARTICLES = 2
+NUM_ARTICLES = 5
 
 # Define news website URLs
 SEARCH_URL = "https://apnews.com/hub"
