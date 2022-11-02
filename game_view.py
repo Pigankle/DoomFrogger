@@ -1,7 +1,7 @@
-#import arcade
+# import arcade
 
 import player
-#import pandas as pd
+# import pandas as pd
 from random import uniform
 from car_factory import CarFactory
 from arcade import get_image
@@ -12,6 +12,7 @@ from constants import *
 from blinders import Blinder
 from smoke import Smoke
 from particle import Particle
+
 
 class GameView(arcade.View):
     """
@@ -49,7 +50,7 @@ class GameView(arcade.View):
         self.player_list.append(self.player_sprite)
         # Set up list of articles for collisions
         self.article_list = kwargs["articles"]
-        
+
         # Flag for game status
         self.is_game_over = False
         # Game over parameters
@@ -83,7 +84,7 @@ class GameView(arcade.View):
             self.carbinger_list.append(new_carbinger)
 
         # Create the 'physics engine'
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.scene.get_sprite_list("Walls") )
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.scene.get_sprite_list("Walls"))
 
     def on_draw(self):
         """Render the screen."""
@@ -98,14 +99,14 @@ class GameView(arcade.View):
     def collision_text_draw(self):
         for txt in self.collision_text_list:
             display_collision_text(
-                    text=txt[0],
-                    xpos=txt[1],
-                    ypos=txt[2],
-                    fnt_sz = txt[3],
-                    clr = txt[4]
-                )
+                text=txt[0],
+                xpos=txt[1],
+                ypos=txt[2],
+                fnt_sz=txt[3],
+                clr=txt[4]
+            )
             txt[3] -= txt[5]
-            if txt[3]<3:
+            if txt[3] < 3:
                 self.collision_text_list.remove(txt)
 
     def on_key_press(self, key, modifiers):
@@ -122,8 +123,8 @@ class GameView(arcade.View):
         """Logic for moving cars and expiring offscreen cars"""
         for car in self.carbinger_list:
             car.car_move()
-            car.cooldown -=1
-            if car.center_x <0 or car.center_x > SCREEN_WIDTH:
+            car.cooldown -= 1
+            if car.center_x < 0 or car.center_x > SCREEN_WIDTH:
                 car.remove_from_sprite_lists()
                 if len(self.carbinger_list) < MAX_CAR_CT:
                     for i in range(CAR_SPAWN_RATE):
@@ -133,10 +134,10 @@ class GameView(arcade.View):
         """Logic for moving cars and expiring offscreen cars"""
         for bl in self.blinder_list:
             bl.blinder_move()
-            if ( (bl.center_x < 0) or (bl.center_x > SCREEN_WIDTH)
-                    or (bl.center_y <0) or (bl.center_y>SCREEN_HEIGHT)):
+            if ((bl.center_x < 0) or (bl.center_x > SCREEN_WIDTH)
+                    or (bl.center_y < 0) or (bl.center_y > SCREEN_HEIGHT)):
                 bl.remove_from_sprite_lists()
-        
+
     def process_collisions(self):
         """What happens when player collides with other objects"""
         # Process Blinder collisions
@@ -146,11 +147,12 @@ class GameView(arcade.View):
                 self.player_sprite.blinder_count += 1
                 bl.remove_from_sprite_lists()
                 self.collision_text_list.append([str(self.player_sprite.blinder_count),
-                                                 bl.center_x, bl.center_y, BLINDER_HIT_TEXT_PERMANENCE , BLINDER_HIT_TEXT_COLOR, BLINDER_HIT_TEXT_DECAY_RATE])
+                                                 bl.center_x, bl.center_y, BLINDER_HIT_TEXT_PERMANENCE,
+                                                 BLINDER_HIT_TEXT_COLOR, BLINDER_HIT_TEXT_DECAY_RATE])
 
         # Process_car_collisions
         car_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
-        for nf in car_hit_list: #NewsFlash
+        for nf in car_hit_list:  # NewsFlash
             if nf.cooldown < 0:
                 nf.cooldown = 100
                 self.player_sprite.blinder_count -= 1
@@ -159,11 +161,13 @@ class GameView(arcade.View):
                 collision_string = f"{nf.threat.upper()}\n{article.upper()}\n{self.player_sprite.blinder_count}"
                 self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
                                                  CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
-                print(f"Blinder count is {self.player_sprite.blinder_count},\n    collision string is {collision_string}")
+                print(
+                    f"Blinder count is {self.player_sprite.blinder_count},\n    collision string is {collision_string}")
                 self.car_explosion(nf)
             if self.player_sprite.blinder_count < 1:
                 self.end_game(nf)
-    def car_explosion(self,nf):
+
+    def car_explosion(self, nf):
         for i in range(PARTICLE_COUNT):
             particle = Particle(self.explosions_list)
             particle.position = nf.position
@@ -173,8 +177,7 @@ class GameView(arcade.View):
         smoke.position = nf.position
         self.explosions_list.append(smoke)
 
-
-    def end_game(self,nf=arcade.Sprite):
+    def end_game(self, nf=arcade.Sprite):
         # Set game over message to display at the (x,y) position of the collision
         self.game_over_xpos = nf.center_x
         self.game_over_ypos = nf.center_y
@@ -183,10 +186,9 @@ class GameView(arcade.View):
 
     def spawn_blinders(self):
         """Create new blinders"""
-        if uniform(0,1) < BLINDER_SPAWN_RATE:
+        if uniform(0, 1) < BLINDER_SPAWN_RATE:
             bl = Blinder()
             self.blinder_list.append(bl)
-
 
     def on_update(self, delta_time):
         """Movement and game logic"""
@@ -208,9 +210,10 @@ class GameView(arcade.View):
                 xpos=self.game_over_xpos,
                 ypos=self.game_over_ypos,
                 txtr=game_over_texture
-                )
+            )
             # Display the game over view
             self.window.show_view(view)
+
 
 def main():
     """Main function"""

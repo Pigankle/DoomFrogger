@@ -45,6 +45,7 @@ MAX_CAR_CT = 45
 CAR_HIT_TEXT_PERMANENCE = 15
 CAR_HIT_TEXT_DECAY_RATE = 0.2
 
+
 @dataclass
 class CarSpec:
     threat: str = 'climate_change'
@@ -107,27 +108,28 @@ OUTPUT_URL = "https://apnews.com"
 
 # Keywords for themes
 KEYWORDS = {
-  "climate_change": {
-    "path": "/climate-change", 
-    "keywords": ["environment", "greenhouse", "climate"],
+    "climate_change": {
+        "path": "/climate-change",
+        "keywords": ["environment", "greenhouse", "climate"],
     },
-  "famine": {
-    "path": "/famine",
-    "keywords": ["famine", "hunger", "starve", "starving", "shortage"],
+    "famine": {
+        "path": "/famine",
+        "keywords": ["famine", "hunger", "starve", "starving", "shortage"],
     },
-  "nuclear_war": {
-    "path": "/nuclear-weapons",
-    "keywords": ["nuclear", "radioactive", "russia", "ukraine", "north korea"]
+    "nuclear_war": {
+        "path": "/nuclear-weapons",
+        "keywords": ["nuclear", "radioactive", "russia", "ukraine", "north korea"]
     },
-  "pandemic": {
-    "path": "/health",
-    "keywords": ["covid", "pandemic", "flu", "pox", "infection"],
+    "pandemic": {
+        "path": "/health",
+        "keywords": ["covid", "pandemic", "flu", "pox", "infection"],
     },
-  "machine_superintelligence": {
-    "path": "/artificial-intelligence",
-    "keywords": ["artificial-inte", "artificial intelligence", "robot", "superintelligen"]
+    "machine_superintelligence": {
+        "path": "/artificial-intelligence",
+        "keywords": ["artificial-inte", "artificial intelligence", "robot", "superintelligen"]
     },
-  "crop_failure": {
-    "path": "/agriculture",
-    "keywords": ["failure", "drought", "flood", "struggle", "pest", "locust", "shortage", "flu", "disease", "rot", "blight"]},
+    "crop_failure": {
+        "path": "/agriculture",
+        "keywords": ["failure", "drought", "flood", "struggle", "pest", "locust", "shortage", "flu", "disease", "rot",
+                     "blight"]},
 }
