@@ -90,7 +90,7 @@ class Player(arcade.Sprite):
             frame = self.cur_texture // UPDATES_PER_FRAME
             self.texture = self.walk_textures[frame]
 
-    def update_history(self, nf, os_bl_count, nf_count):
+    def update_history(self, nf, os_bl_count, nf_count, txt):
         self.df_collision_history = pd.concat(
             [self.df_collision_history, pd.DataFrame({"Time": time(),
                                                       "HitType": nf.objecttype,
@@ -98,5 +98,6 @@ class Player(arcade.Sprite):
                                                       "PosY": self.center_y,
                                                       "PrevBlinderCount": self.blinder_count,
                                                       "onscreen_bl_count": os_bl_count,
-                                                      "nf_count": nf_count},
+                                                      "Onscreen_Car_count": nf_count,
+                                                      "Text": txt},
                                                      index=[0])])
