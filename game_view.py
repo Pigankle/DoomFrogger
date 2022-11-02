@@ -145,7 +145,7 @@ class GameView(arcade.View):
         if self.blinder_list:
             blinder_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.blinder_list)
             for bl in blinder_hit_list:  # NewsFlash
-                self.player_sprite.update_history(bl, len(self.blinder_list), len(self.carbinger_list))
+                self.player_sprite.update_history(bl, len(self.blinder_list), len(self.carbinger_list), txt = "Excuses, Excuses")
                 self.player_sprite.blinder_count += 1
                 bl.remove_from_sprite_lists()
                 self.collision_text_list.append([str(self.player_sprite.blinder_count),
@@ -156,14 +156,16 @@ class GameView(arcade.View):
         car_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in car_hit_list:  # NewsFlash
             if nf.cooldown < 0:
-                self.player_sprite.update_history(nf, len(self.blinder_list), len(self.carbinger_list))
+                article = replenish_articles(threat=nf.objecttype, stored_articles=self.article_list)
+                collision_string = f"{nf.objecttype.upper().replace('_' , ' ')}\n{article.upper()}\n{self.player_sprite.blinder_count}"
+                self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
+                                                 CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
+
+                self.player_sprite.update_history(nf, len(self.blinder_list), len(self.carbinger_list), txt = collision_string)
                 nf.cooldown = 100
                 self.player_sprite.blinder_count -= 1
                 # Get an article related to the threat, or fetch new ones if no articles exist
-                article = replenish_articles(threat=nf.objecttype, stored_articles=self.article_list)
-                collision_string = f"{nf.objecttype.upper()}\n{article.upper()}\n{self.player_sprite.blinder_count}"
-                self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
-                                                 CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
+
                 print(
                     f"Blinder count is {self.player_sprite.blinder_count},\n    collision string is {collision_string}")
                 self.car_explosion(nf)
