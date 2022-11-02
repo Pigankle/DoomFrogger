@@ -11,6 +11,10 @@ class SplashView(arcade.View):
         super().__init__()
         # Load screenshot of game over state
         self.texture = arcade.load_texture(RESOURCE_DIR / SPLASH_IMAGE)
+        # Request article text and stored parsed html
+        request_all_articles()
+        # Find thematic articles from parsed html and save in list
+        self.saved_articles = stock_all_articles(num_articles = NUM_ARTICLES)
 
     def on_draw(self):
         """ Draw this view """
@@ -26,10 +30,7 @@ class SplashView(arcade.View):
     """
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
-        # Request article text and stored parsed html
-        request_all_articles()
-        # Find thematic articles from parsed html and save in list
-        saved_articles = stock_all_articles(num_articles = NUM_ARTICLES)
+
         game_view = GameView()
-        game_view.setup(articles=saved_articles)
+        game_view.setup(articles=self.saved_articles)
         self.window.show_view(game_view)
