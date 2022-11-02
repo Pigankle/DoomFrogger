@@ -69,7 +69,7 @@ def find_thematic_article(theme, num_articles, stored_headlines=None):
     # Loop through all stories, and extract any story headlines
     # if they contain any of the keywords for a given theme
     for idx, h in enumerate(parsed_articles[theme]):
-        if (article_counter > num_articles):
+        if article_counter > num_articles:
             break
         # If the story headline contains any of the keywords for the theme,
         # then save the headline
@@ -119,7 +119,10 @@ def replenish_articles(threat, stored_articles):
                     stored_headlines=article.headlines)
 
             # Return an article and remove it from our collection of stored articles
-            return article.headlines.pop()
+            try:
+                return article.headlines.pop()
+            except:
+                return f"Overwhelming {threat}"
 
 # TODO: Add sentiment analysis for article headlines to get only negative headlines?
 
