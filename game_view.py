@@ -155,7 +155,6 @@ class GameView(arcade.View):
         # Process_car_collisions
         car_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in car_hit_list:  # NewsFlash
-            self.player_sprite.update_history(nf, len(self.blinder_list), len(self.carbinger_list))
             if nf.cooldown < 0:
                 self.player_sprite.update_history(nf, len(self.blinder_list), len(self.carbinger_list))
                 nf.cooldown = 100
