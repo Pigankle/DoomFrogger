@@ -15,9 +15,7 @@ class Blinder(arcade.Sprite):
         self.center_x = uniform(25, SCREEN_WIDTH - 25)
         self.center_y = uniform(25, SCREEN_HEIGHT - 25)
         self.move_dir = [uniform(-1, 1), uniform(-1., 1)]
-
-    def update(self):
-        super.update()
+        self.objecttype = "Blinder"
 
     def blinder_move(self):
         """Move blinder"""

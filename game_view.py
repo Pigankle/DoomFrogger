@@ -1,10 +1,10 @@
 # import arcade
 
-import player
-# import pandas as pd
 from random import uniform
-from car_factory import CarFactory
 from arcade import get_image
+import player
+from time import time
+from car_factory import CarFactory
 from get_news import replenish_articles
 from display import *
 from game_over_view import GameOverView
@@ -37,6 +37,14 @@ class GameView(arcade.View):
         self.player_sprite = None
         self.physics_engine = None
         self.scene = arcade.Scene()
+        self.start_time = time()
+        # Flag for game status
+        self.is_game_over = False
+        # Game over parameters
+        self.game_over_text = "GAME OVER!"
+        self.game_over_xpos = 0
+        self.game_over_ypos = 0
+        self.article_list = []
 
     def setup(self, *args, **kwargs):
         """Set up game board. Call this function to restart the game."""
@@ -50,13 +58,6 @@ class GameView(arcade.View):
         self.player_list.append(self.player_sprite)
         # Set up list of articles for collisions
         self.article_list = kwargs["articles"]
-
-        # Flag for game status
-        self.is_game_over = False
-        # Game over parameters
-        self.game_over_text = "GAME OVER!"
-        self.game_over_xpos = 0
-        self.game_over_ypos = 0
 
         # Create the bounding box
         for x in range(0, SCREEN_WIDTH, 24):
@@ -144,6 +145,7 @@ class GameView(arcade.View):
         if self.blinder_list:
             blinder_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.blinder_list)
             for bl in blinder_hit_list:  # NewsFlash
+                self.player_sprite.update_history(bl, len(self.blinder_list), len(self.carbinger_list))
                 self.player_sprite.blinder_count += 1
                 bl.remove_from_sprite_lists()
                 self.collision_text_list.append([str(self.player_sprite.blinder_count),
@@ -153,19 +155,21 @@ class GameView(arcade.View):
         # Process_car_collisions
         car_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
         for nf in car_hit_list:  # NewsFlash
+            self.player_sprite.update_history(nf, len(self.blinder_list), len(self.carbinger_list))
             if nf.cooldown < 0:
+                self.player_sprite.update_history(nf, len(self.blinder_list), len(self.carbinger_list))
                 nf.cooldown = 100
                 self.player_sprite.blinder_count -= 1
                 # Get an article related to the threat, or fetch new ones if no articles exist
-                article = replenish_articles(threat=nf.threat, stored_articles=self.article_list)
-                collision_string = f"{nf.threat.upper()}\n{article.upper()}\n{self.player_sprite.blinder_count}"
+                article = replenish_articles(threat=nf.objecttype, stored_articles=self.article_list)
+                collision_string = f"{nf.objecttype.upper()}\n{article.upper()}\n{self.player_sprite.blinder_count}"
                 self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
                                                  CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
                 print(
                     f"Blinder count is {self.player_sprite.blinder_count},\n    collision string is {collision_string}")
                 self.car_explosion(nf)
-            if self.player_sprite.blinder_count < 1:
-                self.end_game(nf)
+                if self.player_sprite.blinder_count < 1:
+                    self.end_game(nf)
 
     def car_explosion(self, nf):
         for i in range(PARTICLE_COUNT):
@@ -201,9 +205,10 @@ class GameView(arcade.View):
         self.explosions_list.update()
         # If game is over, switch to the game over view
         self.spawn_blinders()
-        if (self.is_game_over == True):
+        if self.is_game_over:
             # Take a snapshot of the game state so we can overlay the game over text on top
             game_over_texture = arcade.Texture("game over screenshot", get_image())
+            self.player_sprite.df_collision_history.to_csv(RESOURCE_DIR /"collision history.csv")
             # Create new game over view using the saved game over parameters
             view = GameOverView(
                 text=self.game_over_text,

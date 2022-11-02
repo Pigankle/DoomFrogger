@@ -35,20 +35,21 @@ BLINDER_HIT_TEXT_COLOR = arcade.color.RASPBERRY_PINK
 BLINDER_HIT_FONT = 'comic'
 BLINDER_HIT_TEXT_PERMANENCE = 15
 BLINDER_HIT_TEXT_DECAY_RATE = 0.1
+BLINDER_CT_START = 5
 
 """CARBINGER PARAMETERS"""
 STARTING_CAR_COUNT = 1
 CAR_SCALE = .05
 CAR_DEFAULT_ICON = "images/carbinger-light.png"
 CAR_SPAWN_RATE = 2
-MAX_CAR_CT = 45
+MAX_CAR_CT = 50
 CAR_HIT_TEXT_PERMANENCE = 15
 CAR_HIT_TEXT_DECAY_RATE = 0.2
 
 
 @dataclass
 class CarSpec:
-    threat: str = 'climate_change'
+    objecttype: str = 'climate_change'
     color: arcade.Color = arcade.color.RED
     speed: float = 6
     icon: str = "images/carbinger-light.png"

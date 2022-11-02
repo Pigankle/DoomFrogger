@@ -2,8 +2,9 @@
 Create the player's turtle
 """
 import math
+import pandas as pd
+from time import time
 from constants import *
-# from turtle import Turtle
 
 
 class Player(arcade.Sprite):
@@ -18,8 +19,12 @@ class Player(arcade.Sprite):
         self.center_y = PLAYER_STARTING_POSITION["y"]
         self.scale = PLAYER_CHARACTER_SCALING
         self.is_moving = False
-        self.blinder_count = 5
-
+        self.blinder_count = BLINDER_CT_START
+        self.df_collision_history = pd.DataFrame()
+        """            columns=["Time", "HitType", "Position",
+                     "PrevBlinderCount", "Velocity",
+                     "onscreen_bl_count", "nf_count", "obj_velocity"])
+        """
         # ANIMATION
         self.cur_texture = 1
         # Load Textures
@@ -33,18 +38,18 @@ class Player(arcade.Sprite):
     def move_keydown(self, direction):
         """Behavior when a key is pressed down"""
         match direction:
-                case (arcade.key.UP):
-                    self.change_y = PLAYER_MOVEMENT_SPEED
-                    self.angle = 90
-                case (arcade.key.DOWN):
-                    self.change_y = -PLAYER_MOVEMENT_SPEED
-                    self.angle = 270
-                case (arcade.key.LEFT):
-                    self.change_x = -PLAYER_MOVEMENT_SPEED
-                    self.angle = 180
-                case (arcade.key.RIGHT):
-                    self.change_x = PLAYER_MOVEMENT_SPEED
-                    self.angle = 0
+            case (arcade.key.UP):
+                self.change_y = PLAYER_MOVEMENT_SPEED
+                self.angle = 90
+            case (arcade.key.DOWN):
+                self.change_y = -PLAYER_MOVEMENT_SPEED
+                self.angle = 270
+            case (arcade.key.LEFT):
+                self.change_x = -PLAYER_MOVEMENT_SPEED
+                self.angle = 180
+            case (arcade.key.RIGHT):
+                self.change_x = PLAYER_MOVEMENT_SPEED
+                self.angle = 0
         self.is_moving = True
 
     def move_keyup(self, direction):
@@ -84,3 +89,14 @@ class Player(arcade.Sprite):
                 self.cur_texture = 0
             frame = self.cur_texture // UPDATES_PER_FRAME
             self.texture = self.walk_textures[frame]
+
+    def update_history(self, nf, os_bl_count, nf_count):
+        self.df_collision_history = pd.concat(
+            [self.df_collision_history, pd.DataFrame({"Time": time(),
+                                                      "HitType": nf.objecttype,
+                                                      "PosX": self.center_x,
+                                                      "PosY": self.center_y,
+                                                      "PrevBlinderCount": self.blinder_count,
+                                                      "onscreen_bl_count": os_bl_count,
+                                                      "nf_count": nf_count},
+                                                     index=[0])])
