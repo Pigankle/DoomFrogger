@@ -157,7 +157,7 @@ class GameView(arcade.View):
         for nf in car_hit_list:  # NewsFlash
             if nf.cooldown < 0:
                 article = replenish_articles(threat=nf.objecttype, stored_articles=self.article_list)
-                collision_string = f"{nf.objecttype.upper().replace('_' , ' ')}\n{article.upper()}\n{self.player_sprite.blinder_count}"
+                collision_string = f"{nf.objecttype.upper().replace('_' , ' ')}\n{article.title()}"# removed\n{self.player_sprite.blinder_count}"
                 self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
                                                  CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
 
