@@ -2,6 +2,9 @@
 
 from random import uniform
 from arcade import get_image
+
+import config
+import fading_view
 import player
 from time import time
 from car_factory import CarFactory
@@ -12,9 +15,9 @@ from constants import *
 from blinders import Blinder
 from smoke import Smoke
 from particle import Particle
+import fading_view as fv
 
-
-class GameView(arcade.View):
+class GameView(fading_view.FadingView):
     """
     Main Game Playing Screen class.
     """
@@ -57,7 +60,7 @@ class GameView(arcade.View):
         self.player_sprite = player.Player()
         self.player_list.append(self.player_sprite)
         # Set up list of articles for collisions
-        self.article_list = kwargs["articles"]
+        self.article_list = config.saved_articles
 
         # Create the bounding box
         for x in range(0, SCREEN_WIDTH, 24):
@@ -209,7 +212,7 @@ class GameView(arcade.View):
         if self.is_game_over:
             # Take a snapshot of the game state so we can overlay the game over text on top
             game_over_texture = arcade.Texture("game over screenshot", get_image())
-            self.player_sprite.df_collision_history.to_csv(RESOURCE_DIR /"collision history.csv")
+            config.df_collision_history.to_csv(RESOURCE_DIR /"collision history.csv")
             # Create new game over view using the saved game over parameters
             view = GameOverView(
                 text=self.game_over_text,

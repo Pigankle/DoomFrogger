@@ -5,7 +5,7 @@ import math
 import pandas as pd
 from time import time
 from constants import *
-
+import config
 
 class Player(arcade.Sprite):
     def __init__(self):
@@ -20,7 +20,7 @@ class Player(arcade.Sprite):
         self.scale = PLAYER_CHARACTER_SCALING
         self.is_moving = False
         self.blinder_count = BLINDER_CT_START
-        self.df_collision_history = pd.DataFrame()
+        config.df_collision_history = pd.DataFrame()
         """            columns=["Time", "HitType", "Position",
                      "PrevBlinderCount", "Velocity",
                      "onscreen_bl_count", "nf_count", "obj_velocity"])
@@ -91,8 +91,8 @@ class Player(arcade.Sprite):
             self.texture = self.walk_textures[frame]
 
     def update_history(self, nf, os_bl_count, nf_count, txt):
-        self.df_collision_history = pd.concat(
-            [self.df_collision_history, pd.DataFrame({"Time": time(),
+        config.df_collision_history = pd.concat(
+            [config.df_collision_history, pd.DataFrame({"Time": time(),
                                                       "HitType": nf.objecttype,
                                                       "PosX": self.center_x,
                                                       "PosY": self.center_y,
