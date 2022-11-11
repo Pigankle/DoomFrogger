@@ -1,7 +1,6 @@
 from pathlib import Path
 from color_table import COLORS
 from dataclasses import dataclass
-import arcade
 
 """WINDOW PARAMETERS"""
 SCREEN_WIDTH = 1000
@@ -17,10 +16,7 @@ GAME_OVER_IMAGE_PATH = "images/game_over.png"
 RESOURCE_DIR = Path(__file__).parent
 
 """ PLAYER BEHAVIOR"""
-PLAYER_MOVE_KEYS = [arcade.key.UP,
-                    arcade.key.DOWN,
-                    arcade.key.LEFT,
-                    arcade.key.RIGHT]
+
 PLAYER_MOVEMENT_SPEED = 5
 PLAYER_SPRITE_IMG = "images/FrogSprite.png"
 PLAYER_STARTING_POSITION = {"x": 300, "y": 20}

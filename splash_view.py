@@ -1,3 +1,4 @@
+import arcade
 from game_view import GameView
 from get_news import request_all_articles, stock_all_articles
 from constants import *

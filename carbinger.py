@@ -3,7 +3,7 @@ Create a car object so we can store more attributes about the type of threat rep
 
 """
 import math
-
+import arcade
 from constants import *
 
 

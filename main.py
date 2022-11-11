@@ -1,3 +1,4 @@
+import arcade
 from constants import *
 from splash_view import SplashView
 

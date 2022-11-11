@@ -6,6 +6,7 @@ import pandas as pd
 from time import time
 from constants import *
 import config
+import arcade
 
 class Player(arcade.Sprite):
     def __init__(self):

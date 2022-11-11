@@ -1,4 +1,4 @@
-# import arcade
+import arcade
 
 from random import uniform
 from arcade import get_image
@@ -16,6 +16,7 @@ from blinders import Blinder
 from smoke import Smoke
 from particle import Particle
 import fading_view as fv
+import config
 
 class GameView(fading_view.FadingView):
     """
@@ -115,12 +116,12 @@ class GameView(fading_view.FadingView):
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
-        if key in PLAYER_MOVE_KEYS:
+        if key in config.PLAYER_MOVE_KEYS:
             self.player_sprite.move_keydown(key)
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
-        if key in PLAYER_MOVE_KEYS:
+        if key in config.PLAYER_MOVE_KEYS:
             self.player_sprite.move_keyup(key)
 
     def update_cars(self):

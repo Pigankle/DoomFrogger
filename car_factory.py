@@ -2,6 +2,7 @@
 Car Factory...> Makes Cars and puts them where they belong.
 """
 from random import randint
+import arcade
 from carbinger import Carbinger
 from constants import *
 

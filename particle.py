@@ -1,5 +1,6 @@
 import random
 import math
+import arcade
 from constants import *
 from smoke import Smoke
 
