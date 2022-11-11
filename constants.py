@@ -1,10 +1,11 @@
 from pathlib import Path
-import arcade
+from color_table import COLORS
 from dataclasses import dataclass
+import arcade
 
 """WINDOW PARAMETERS"""
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 750
 SCREEN_TITLE = "Doom Frogger"
 TILE_SCALING = 0.1
 SPLASH_IMAGE = "images/DoomFroggerLogo.png"
@@ -31,7 +32,7 @@ UPDATES_PER_FRAME = 5
 BLINDER_DEFAULT_ICON = "images/rose.png"
 BLINDER_SCALE = 0.1
 BLINDER_SPAWN_RATE = 0.01
-BLINDER_HIT_TEXT_COLOR = arcade.color.RASPBERRY_PINK
+BLINDER_HIT_TEXT_COLOR = COLORS["PINK"]
 BLINDER_HIT_FONT = 'comic'
 BLINDER_HIT_TEXT_PERMANENCE = 15
 BLINDER_HIT_TEXT_DECAY_RATE = 0.1
@@ -50,7 +51,7 @@ CAR_HIT_TEXT_DECAY_RATE = 0.2
 @dataclass
 class CarSpec:
     objecttype: str = 'climate_change'
-    color: arcade.Color = arcade.color.RED
+    color: (int, int, int) = COLORS["RED"]
     speed: float = 6
     icon: str = "images/carbinger-light.png"
 
@@ -59,12 +60,12 @@ class CarSpec:
  Icons should be facing to the left if they have left-right orientation
  Horseman icon source: https://www.pngegg.com/en/png-cevbs
 """
-CAR_TYPES = [CarSpec("climate_change", arcade.color.RED, 6, CAR_DEFAULT_ICON),
-             CarSpec("famine", arcade.color.BLACK, 1, CAR_DEFAULT_ICON),
-             CarSpec("nuclear_war", arcade.color.RAJAH, 5, CAR_DEFAULT_ICON),
-             CarSpec("pandemic", arcade.color.BRIGHT_GREEN, 4, CAR_DEFAULT_ICON),
-             CarSpec("machine_superintelligence", arcade.color.BRIGHT_NAVY_BLUE, 3, CAR_DEFAULT_ICON),
-             CarSpec("crop_failure", arcade.color.BOYSENBERRY, 2, CAR_DEFAULT_ICON)]
+CAR_TYPES = [CarSpec("climate_change",  COLORS["RED"],          6, CAR_DEFAULT_ICON),
+             CarSpec("famine",          COLORS["BLACK"],        1, CAR_DEFAULT_ICON),
+             CarSpec("nuclear_war",     COLORS["ORANGE"],        5, CAR_DEFAULT_ICON),
+             CarSpec("pandemic",        COLORS["CHARTREUSE"], 4, CAR_DEFAULT_ICON),
+             CarSpec("machine_superintelligence", COLORS["INDIGO"], 3, CAR_DEFAULT_ICON),
+             CarSpec("crop_failure",    COLORS["BROWN"],  2, CAR_DEFAULT_ICON)]
 
 """ --- Explosion Particles Related"""
 
@@ -80,11 +81,11 @@ PARTICLE_COUNT = 20
 # How big the particle
 PARTICLE_RADIUS = 3
 # Possible particle colors
-PARTICLE_COLORS = [arcade.color.ALIZARIN_CRIMSON,
-                   arcade.color.COQUELICOT,
-                   arcade.color.LAVA,
-                   arcade.color.KU_CRIMSON,
-                   arcade.color.DARK_TANGERINE]
+PARTICLE_COLORS = [COLORS["CRIMSON"],
+                   COLORS["COQUELICOT"],
+                   COLORS["LAVA"],
+                   COLORS["KU_CRIMSON"],
+                   COLORS["DARK_TANGERINE"]]
 # Chance we'll flip the texture to white and make it 'sparkle'
 PARTICLE_SPARKLE_CHANCE = 0.02
 # --- Smoke
@@ -134,3 +135,4 @@ KEYWORDS = {
         "keywords": ["failure", "drought", "flood", "struggle", "pest", "locust", "shortage", "flu", "disease", "rot",
                      "blight"]},
 }
+
