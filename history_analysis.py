@@ -1,7 +1,6 @@
 import io
 from constants import *
 import matplotlib.pyplot as plt
-#from color_table import COLORS
 import config
 from PIL import Image
 
