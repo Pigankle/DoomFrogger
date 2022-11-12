@@ -128,7 +128,7 @@ KEYWORDS = {
     },
     "crop_failure": {
         "path": "/agriculture",
-        "keywords": ["failure", "drought", "flood", "struggle", "pest", "locust", "shortage", "flu", "disease", "rot",
+        "keywords": ["failure", "drought", "flood", "struggle", "pest",
+                     "locust", "shortage", "flu", "disease", "rot",
                      "blight"]},
 }
-

@@ -15,13 +15,11 @@ from constants import *
 from blinders import Blinder
 from smoke import Smoke
 from particle import Particle
-import fading_view as fv
-import config
+#import fading_view as fv
+
 
 class GameView(fading_view.FadingView):
-    """
-    Main Game Playing Screen class.
-    """
+    """Main Game Playing Screen class."""
 
     def __init__(self):
 
@@ -65,21 +63,25 @@ class GameView(fading_view.FadingView):
 
         # Create the bounding box
         for x in range(0, SCREEN_WIDTH, 24):
-            wall = arcade.Sprite(":resources:images/tiles/grassMid.png", TILE_SCALING)
+            wall = arcade.Sprite(
+                ":resources:images/tiles/grassMid.png", TILE_SCALING)
             wall.center_x = x
             wall.center_y = 0
             self.scene.add_sprite("Walls", wall)
-            wall2 = arcade.Sprite(":resources:images/tiles/grassMid.png", TILE_SCALING)
+            wall2 = arcade.Sprite(
+                ":resources:images/tiles/grassMid.png", TILE_SCALING)
             wall2.center_x = x
             wall2.center_y = SCREEN_HEIGHT
             self.scene.add_sprite("Walls", wall2)
 
         for y in range(0, SCREEN_HEIGHT, 24):
-            wall = arcade.Sprite(":resources:images/tiles/grassMid.png", TILE_SCALING)
+            wall = arcade.Sprite(
+                ":resources:images/tiles/grassMid.png", TILE_SCALING)
             wall.center_x = 0
             wall.center_y = y
             self.scene.add_sprite("Walls", wall)
-            wall2 = arcade.Sprite(":resources:images/tiles/grassMid.png", TILE_SCALING)
+            wall2 = arcade.Sprite(
+                ":resources:images/tiles/grassMid.png", TILE_SCALING)
             wall2.center_y = y
             wall2.center_x = SCREEN_WIDTH
             self.scene.add_sprite("Walls", wall2)
@@ -89,7 +91,8 @@ class GameView(fading_view.FadingView):
             self.carbinger_list.append(new_carbinger)
 
         # Create the 'physics engine'
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.scene.get_sprite_list("Walls"))
+        self.physics_engine = arcade.PhysicsEngineSimple(
+            self.player_sprite, self.scene.get_sprite_list("Walls"))
 
     def on_draw(self):
         """Render the screen."""
@@ -102,6 +105,7 @@ class GameView(fading_view.FadingView):
         self.explosions_list.draw()
 
     def collision_text_draw(self):
+        """Display text on collision."""
         for txt in self.collision_text_list:
             display_collision_text(
                 text=txt[0],
@@ -144,12 +148,14 @@ class GameView(fading_view.FadingView):
                 bl.remove_from_sprite_lists()
 
     def process_collisions(self):
-        """What happens when player collides with other objects"""
+        """Check for player collisions with other objects and act."""
         # Process Blinder collisions
         if self.blinder_list:
-            blinder_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.blinder_list)
+            blinder_hit_list = arcade.check_for_collision_with_list(
+                self.player_sprite, self.blinder_list)
             for bl in blinder_hit_list:  # NewsFlash
-                self.player_sprite.update_history(bl, len(self.blinder_list), len(self.carbinger_list), txt = "Excuses, Excuses")
+                self.player_sprite.update_history(bl, len(self.blinder_list), len(
+                    self.carbinger_list), txt="Excuses, Excuses")
                 self.player_sprite.blinder_count += 1
                 bl.remove_from_sprite_lists()
                 self.collision_text_list.append([str(self.player_sprite.blinder_count),
@@ -157,15 +163,19 @@ class GameView(fading_view.FadingView):
                                                  BLINDER_HIT_TEXT_COLOR, BLINDER_HIT_TEXT_DECAY_RATE])
 
         # Process_car_collisions
-        car_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.carbinger_list)
+        car_hit_list = arcade.check_for_collision_with_list(
+            self.player_sprite, self.carbinger_list)
         for nf in car_hit_list:  # NewsFlash
             if nf.cooldown < 0:
-                article = replenish_articles(threat=nf.objecttype, stored_articles=self.article_list)
-                collision_string = f"{nf.objecttype.upper().replace('_' , ' ')}\n{article.title()}"# removed\n{self.player_sprite.blinder_count}"
+                article = replenish_articles(
+                    threat=nf.objecttype, stored_articles=self.article_list)
+                # removed\n{self.player_sprite.blinder_count}"
+                collision_string = f"{nf.objecttype.upper().replace('_' , ' ')}\n{article.title()}"
                 self.collision_text_list.append([collision_string, nf.center_x, nf.center_y,
                                                  CAR_HIT_TEXT_PERMANENCE, nf.color, CAR_HIT_TEXT_DECAY_RATE])
 
-                self.player_sprite.update_history(nf, len(self.blinder_list), len(self.carbinger_list), txt = collision_string)
+                self.player_sprite.update_history(nf, len(self.blinder_list), len(
+                    self.carbinger_list), txt=collision_string)
                 nf.cooldown = 100
                 self.player_sprite.blinder_count -= 1
                 # Get an article related to the threat, or fetch new ones if no articles exist
@@ -187,20 +197,20 @@ class GameView(fading_view.FadingView):
         self.explosions_list.append(smoke)
 
     def end_game(self, nf=arcade.Sprite):
-        # Set game over message to display at the (x,y) position of the collision
+        """Set game over message to display at the (x,y) position of the collision."""
         self.game_over_xpos = nf.center_x
         self.game_over_ypos = nf.center_y
         # Set game over flag so we can draw the game over message and stop the game
         self.is_game_over = True
 
     def spawn_blinders(self):
-        """Create new blinders"""
+        """Create new blinders."""
         if uniform(0, 1) < BLINDER_SPAWN_RATE:
             bl = Blinder()
             self.blinder_list.append(bl)
 
     def on_update(self, delta_time):
-        """Movement and game logic"""
+        """Movement and game logic."""
         # Move the player with the physics engine
         self.physics_engine.update()
         self.update_cars()
@@ -212,8 +222,10 @@ class GameView(fading_view.FadingView):
         self.spawn_blinders()
         if self.is_game_over:
             # Take a snapshot of the game state so we can overlay the game over text on top
-            game_over_texture = arcade.Texture("game over screenshot", get_image())
-            config.df_collision_history.to_csv(RESOURCE_DIR /"collision history.csv")
+            game_over_texture = arcade.Texture(
+                "game over screenshot", get_image())
+            config.df_collision_history.to_csv(
+                RESOURCE_DIR / "collision history.csv")
             # Create new game over view using the saved game over parameters
             view = GameOverView(
                 text=self.game_over_text,
@@ -226,7 +238,7 @@ class GameView(fading_view.FadingView):
 
 
 def main():
-    """Main function"""
+    """Launch the game."""
     window = GameView()
     window.setup()
     arcade.run()
