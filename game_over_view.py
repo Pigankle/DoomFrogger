@@ -66,7 +66,7 @@ class GameOverView(fv.FadingView):
         line_texture = arc.Texture("Time Line", self.hist_plot_line)
         arc.draw_scaled_texture_rectangle(center_x=175, center_y=SCREEN_HEIGHT - 175,
                                           texture=pie_texture,
-                                          scale=1, alpha=95)
+                                          scale=1, alpha=100)
         arc.draw_scaled_texture_rectangle(center_x=SCREEN_WIDTH / 2, center_y=SCREEN_HEIGHT / 6,
                                           texture=line_texture,
-                                          scale=1.5, alpha=95)
+                                          scale=1.5, alpha=100)
