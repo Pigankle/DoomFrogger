@@ -1,6 +1,6 @@
 from pathlib import Path
-from color_table import COLORS
 from dataclasses import dataclass
+from color_table import COLORS
 
 """WINDOW PARAMETERS"""
 SCREEN_WIDTH = 1000
@@ -14,7 +14,7 @@ FONT_COLOR = (255, 255, 255)
 TEXT_WIDTH = 200
 GAME_OVER_IMAGE_PATH = "images/game_over.png"
 RESOURCE_DIR = Path(__file__).parent
-
+HISTORY_FILE = "collision history.csv"
 """ PLAYER BEHAVIOR"""
 
 PLAYER_MOVEMENT_SPEED = 5
@@ -32,7 +32,7 @@ BLINDER_HIT_TEXT_COLOR = COLORS["PINK"]
 BLINDER_HIT_FONT = 'comic'
 BLINDER_HIT_TEXT_PERMANENCE = 15
 BLINDER_HIT_TEXT_DECAY_RATE = 0.1
-BLINDER_CT_START = 5
+BLINDER_CT_START = 1
 
 """CARBINGER PARAMETERS"""
 STARTING_CAR_COUNT = 1

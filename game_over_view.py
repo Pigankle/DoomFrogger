@@ -4,6 +4,7 @@ from constants import *
 import fading_view as fv
 import splash_view as sv
 import config
+from history_analysis import HistoryPlots
 
 # View for when the game is over
 class GameOverView(fv.FadingView):
@@ -23,7 +24,10 @@ class GameOverView(fv.FadingView):
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
         ar.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
-
+        hcht = HistoryPlots()
+        self.hist_plot_pie = hcht.get_plot_img(df=config.df_collision_history, plottype="pie")
+        self.hist_plot_line = hcht.get_plot_img(df= config.df_collision_history, plottype="line")
+        print(f"{self.hist_plot_line=}")
     def on_update(self, dt):
         self.update_fade(next_view=sv.SplashView)
 
@@ -38,7 +42,7 @@ class GameOverView(fv.FadingView):
             xpos=self.game_over_xpos,
             ypos=self.game_over_ypos
         )
-
+        self.draw_plots()
         self.admonishment.draw()
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
@@ -50,3 +54,14 @@ class GameOverView(fv.FadingView):
     def on_key_press(self, key, _modifiers):
         """ If user hits a key, go back to the main menu view """
         ar.exit()
+
+    def draw_plots(self):
+        pass
+        pie_texture = ar.Texture("dummy",self.hist_plot_pie)
+        line_texture = ar.Texture("dummy",self.hist_plot_line)
+        ar.draw_scaled_texture_rectangle(center_x = 100,center_y = SCREEN_HEIGHT-100,
+                                         texture  = pie_texture,
+                                         scale  = 1, alpha = 90)
+        ar.draw_scaled_texture_rectangle(center_x = SCREEN_WIDTH/2, center_y = SCREEN_HEIGHT/4,
+                                         texture = line_texture,
+                                         scale = 1, alpha = 90)
