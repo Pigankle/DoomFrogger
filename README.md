@@ -24,8 +24,7 @@ Sashkaw took the challenge, and developed the webscraping module to display them
 
 To improve performance and allow for more sparkle, the whole game was rewritten using the arcade engine.
 
-## KNOWN ISSUES
-* There is code hidden in the application that would display some plots related to game performance on the game over screen.  There is a fundamental conflict between Arcade and matplotlib regarding how Windows HD screen rendering is handled.  The result is that if plots are create in the background _even if they are never displayed_, the game window shrinks.  This doesn't seem to be a problem on mac.
+## KNOWN MAJOR ISSUES
 
 * Unfortunately, the way the Arcade engine uses the GPU is incompatible with the way that web browsers use the GPU.  It is not possible to embed this game on a website unless it is totally rewritten with a different engine (e.g. pygame).
 
