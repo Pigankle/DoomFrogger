@@ -19,7 +19,7 @@ class GameOverView(fv.FadingView):
         self.game_over_xpos = kwargs["xpos"]
         self.game_over_ypos = kwargs["ypos"]
         self.admonishment = arc.Text(
-            f"You ignored {(~config.df_collision_history['HitType'].str.contains('BLINDER')).sum()}"
+            f"You ignored {(~config.df_collision_history['HitType'].str.contains('Blinder')).sum()}"
             f" warnings.  Why won't you listen?\n\n"
             f"Click to try again, press any key to exit.",
             SCREEN_WIDTH / 2,
@@ -32,12 +32,14 @@ class GameOverView(fv.FadingView):
         )
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
+        # TODO  ON WINDOWS MACHINE WITH HD, CREATING PLOTS SHRINKS THE GAME PLAY WINDOW
+        """
         arc.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
         hcht = HistoryPlots()
         self.hist_plot_line = hcht.get_plot_img(df=config.df_collision_history, plottype="line")
         self.hist_plot_pie = hcht.get_plot_img(df=config.df_collision_history, plottype="pie")
 
-        print(f"{self.hist_plot_line=}")
+        print(f"{self.hist_plot_line=}")"""
 
     def on_update(self, dt):
         """Process updates."""
@@ -50,7 +52,7 @@ class GameOverView(fv.FadingView):
         display.display_headline_text(
             text=self.game_over_text, xpos=self.game_over_xpos, ypos=self.game_over_ypos
         )
-        self.draw_plots()
+        # self.draw_plots() # TODO PLOTS SHRINK WINDOWS
         self.admonishment.draw()
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
