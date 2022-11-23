@@ -1,18 +1,27 @@
 """
 Create the player's turtle
 """
+import arcade
 import math
 import pandas as pd
 from time import time
-from constants import *
+from constants import (
+    RESOURCE_DIR,
+    PLAYER_TEXTURE,
+    PLAYER_STARTING_POSITION,
+    PLAYER_SPRITE_IMG,
+    BLINDER_CT_START,
+    PLAYER_CHARACTER_SCALING,
+    PLAYER_MOVEMENT_SPEED,
+    UPDATES_PER_FRAME,
+)
+
 import config
-import arcade
+
 
 class Player(arcade.Sprite):
     def __init__(self):
-        """
-        Create a turtle at the fixed starting position
-        """
+        """Create a turtle at the fixed starting position."""
         super().__init__()
         self.texture = arcade.load_texture(RESOURCE_DIR / PLAYER_TEXTURE)
         self.filename = PLAYER_SPRITE_IMG
@@ -22,19 +31,17 @@ class Player(arcade.Sprite):
         self.is_moving = False
         self.blinder_count = BLINDER_CT_START
         config.df_collision_history = pd.DataFrame()
-        """            columns=["Time", "HitType", "Position",
-                     "PrevBlinderCount", "Velocity",
-                     "onscreen_bl_count", "nf_count", "obj_velocity"])
-        """
         # ANIMATION
         self.cur_texture = 1
         # Load Textures
         filename0 = RESOURCE_DIR / "images/FrogSprite_moveL.png"
         filename1 = RESOURCE_DIR / "images/FrogSprite_moveR.png"
-        self.walk_textures = [arcade.load_texture(filename0),
-                              arcade.load_texture(filename0),
-                              arcade.load_texture(filename1),
-                              arcade.load_texture(filename1)]
+        self.walk_textures = [
+            arcade.load_texture(filename0),
+            arcade.load_texture(filename0),
+            arcade.load_texture(filename1),
+            arcade.load_texture(filename1),
+        ]
 
     def move_keydown(self, direction):
         """Behavior when a key is pressed down"""
@@ -54,7 +61,7 @@ class Player(arcade.Sprite):
         self.is_moving = True
 
     def move_keyup(self, direction):
-        """behavior when a key is released"""
+        """Behavior when a key is released"""
         match direction:
             case (arcade.key.UP):
                 self.change_y = 0
@@ -67,7 +74,7 @@ class Player(arcade.Sprite):
         self.is_moving = False
 
     def fix_orientation(self):
-        """Correct orientation for situations when multiple keys have been pressed/released at once"""
+        """Correct orientation when multiple keys have been pressed/released at once."""
         if self.change_x == 0:
             if self.change_y < 0:
                 self.angle = 270
@@ -80,7 +87,7 @@ class Player(arcade.Sprite):
                 self.angle -= 180
 
     def update_animation(self):
-        """Animates the frog sprite as it moves around the screen"""
+        """Animate the frog sprite as it moves around the screen."""
         self.fix_orientation()
         if self.velocity[0] != 0 or self.velocity[1] != 0:
             self.is_moving = True
@@ -93,12 +100,20 @@ class Player(arcade.Sprite):
 
     def update_history(self, nf, os_bl_count, nf_count, txt):
         config.df_collision_history = pd.concat(
-            [config.df_collision_history, pd.DataFrame({"Time": time(),
-                                                      "HitType": nf.objecttype,
-                                                      "PosX": self.center_x,
-                                                      "PosY": self.center_y,
-                                                      "PrevBlinderCount": self.blinder_count,
-                                                      "onscreen_bl_count": os_bl_count,
-                                                      "Onscreen_Car_count": nf_count,
-                                                      "Text": txt},
-                                                     index=[0])])
+            [
+                config.df_collision_history,
+                pd.DataFrame(
+                    {
+                        "Time": time(),
+                        "HitType": nf.objecttype,
+                        "PosX": self.center_x,
+                        "PosY": self.center_y,
+                        "PrevBlinderCount": self.blinder_count,
+                        "onscreen_bl_count": os_bl_count,
+                        "Onscreen_Car_count": nf_count,
+                        "Text": txt,
+                    },
+                    index=[0],
+                ),
+            ]
+        )

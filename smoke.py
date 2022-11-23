@@ -1,17 +1,24 @@
 import arcade
-from constants import *
+from constants import (
+    SMOKE_RISE_RATE,
+    PARTICLE_FADE_RATE,
+    SMOKE_START_SCALE,
+    SMOKE_EXPANSION_RATE,
+    SMOKE_FADE_RATE,
+)
 
 
 class Smoke(arcade.SpriteCircle):
-    """ This represents a puff of smoke """
+    """Render a puff of smoke."""
 
     def __init__(self, size):
+
         super().__init__(size, arcade.color.LIGHT_GRAY, soft=True)
         self.change_y = SMOKE_RISE_RATE
         self.scale = SMOKE_START_SCALE
 
     def update(self):
-        """ Update this particle """
+        """Update this particle."""
         if self.alpha <= PARTICLE_FADE_RATE:
             # Remove faded out particles
             self.remove_from_sprite_lists()

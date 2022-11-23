@@ -1,10 +1,10 @@
 """
-Create a display object so we can format text output
-use https://api.arcade.academy/en/development/api_docs/api/text.html?highlight=text
+Create a display object so we can format text output.
 
+use https://api.arcade.academy/en/development/api_docs/api/text.html?highlight=text
 """
 from arcade import Text
-from constants import *
+from constants import FONT_SIZE, FONT_COLOR, TEXT_WIDTH
 
 
 # Function to display text output at specified position
@@ -16,10 +16,10 @@ def display_headline_text(text, xpos, ypos, fnt_sz=FONT_SIZE):
         color=FONT_COLOR,
         width=TEXT_WIDTH,
         font_size=fnt_sz,
-        align='left',
-        font_name='arial',
+        align="left",
+        font_name="arial",
         bold=True,
-        multiline=True
+        multiline=True,
     )
     text_obj.draw()
 
@@ -32,9 +32,9 @@ def display_collision_text(text, xpos, ypos, fnt_sz, clr):
         color=clr,
         width=TEXT_WIDTH,
         font_size=fnt_sz,
-        align='left',
-        font_name='comic',
+        align="left",
+        font_name="comic",
         bold=True,
-        multiline=True
+        multiline=True,
     )
     text_obj.draw()

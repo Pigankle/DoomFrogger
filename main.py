@@ -1,9 +1,10 @@
 import arcade
-from constants import *
+from constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE
 from splash_view import SplashView
 
 
 # from instruction_view import InstructionView
+
 
 def main():
     """Launch a new game window with start_view."""

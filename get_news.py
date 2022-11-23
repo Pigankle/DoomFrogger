@@ -6,7 +6,7 @@ import re
 from bs4 import BeautifulSoup
 from dataclasses import dataclass, field
 from collections import deque
-from constants import *
+from constants import KEYWORDS, NUM_ARTICLES, SEARCH_URL
 
 # Dictionary to save all the news stories for a given search path
 parsed_articles = {
@@ -22,7 +22,7 @@ parsed_articles = {
 # Create data class for storing type of threat and article headline text
 @dataclass
 class threat_headlines:
-    threat: str = 'climate_change'
+    threat: str = "climate_change"
     headlines: deque = deque()
 
     # Override default __eq__ method for easier comparisons
@@ -62,7 +62,7 @@ def request_all_articles():
 def find_thematic_article(theme, num_articles, stored_headlines=None):
     # If no stored_headlines parameter has been passed to the function, create a new
     # deque to hold the headlines
-    if (stored_headlines is None):
+    if stored_headlines is None:
         stored_headlines = deque()
     # Counter to keep track of how many articles we have retrieved
     article_counter = 1
@@ -87,7 +87,7 @@ def find_thematic_article(theme, num_articles, stored_headlines=None):
 
 
 # Function to get thematicx articles for all keywords and save them for use in the game
-# E.G. at game start you would run request_all_articles() and then stock_all_articles(3) to get 
+# E.G. at game start you would run request_all_articles() and then stock_all_articles(3) to get
 # 3 articles for each theme
 def stock_all_articles(num_articles):
     # List for storing articles
@@ -98,7 +98,9 @@ def stock_all_articles(num_articles):
         print(f"\nLoading articles for theme {theme}...\n")
         # Get an article related to a theme, store the theme and article headline in a
         # threat_headline object, and append the stored object to the list of saved objects
-        saved_headlines.append(threat_headlines(theme, find_thematic_article(theme=theme, num_articles=num_articles)))
+        saved_headlines.append(
+            threat_headlines(theme, find_thematic_article(theme=theme, num_articles=num_articles))
+        )
 
     return saved_headlines
 
@@ -107,22 +109,24 @@ def stock_all_articles(num_articles):
 def replenish_articles(threat, stored_articles):
     for article in stored_articles:
         # Find an article related to a given threat
-        if (article == threat):
+        if article == threat:
             # If there are no articles left, get more articles
-            if (not article.headlines):
+            if not article.headlines:
                 print("Need to replenish supply of articles!\n")
                 find_thematic_article(
                     theme=threat,
                     num_articles=NUM_ARTICLES,
                     # Pass in the existing headlines object
                     # so we can append articles directly to that object
-                    stored_headlines=article.headlines)
+                    stored_headlines=article.headlines,
+                )
 
             # Return an article and remove it from our collection of stored articles
             try:
                 return article.headlines.pop()
             except:
                 return f"Overwhelming {threat}"
+
 
 # TODO: Add sentiment analysis for article headlines to get only negative headlines?
 

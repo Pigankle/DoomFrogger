@@ -1,12 +1,21 @@
 import random
 import math
 import arcade
-from constants import *
+from constants import (
+    PARTICLE_SPEED_RANGE,
+    PARTICLE_MIN_SPEED,
+    PARTICLE_COLORS,
+    PARTICLE_RADIUS,
+    PARTICLE_FADE_RATE,
+    PARTICLE_GRAVITY,
+    PARTICLE_SPARKLE_CHANCE,
+    SMOKE_CHANCE,
+)
 from smoke import Smoke
 
 
 class Particle(arcade.SpriteCircle):
-    """ Explosion particle """
+    """Explode particle."""
 
     def __init__(self, my_list):
         # Choose a random color
@@ -35,7 +44,7 @@ class Particle(arcade.SpriteCircle):
         self.my_list = my_list
 
     def update(self):
-        """ Update the particle """
+        """Update the particle."""
         if self.my_alpha <= PARTICLE_FADE_RATE:
             # Faded out, remove
             self.remove_from_sprite_lists()
@@ -50,8 +59,7 @@ class Particle(arcade.SpriteCircle):
             # Should we sparkle this?
             if random.random() <= PARTICLE_SPARKLE_CHANCE:
                 self.alpha = 255
-                self.texture = arcade.make_circle_texture(int(self.width),
-                                                          arcade.color.WHITE)
+                self.texture = arcade.make_circle_texture(int(self.width), arcade.color.WHITE)
             else:
                 self.texture = self.normal_texture
 

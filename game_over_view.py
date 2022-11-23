@@ -2,34 +2,40 @@ import arcade as arc
 import config
 import fading_view as fv
 import splash_view as sv
-from constants import *
-from display import *
+from constants import SCREEN_HEIGHT, SCREEN_WIDTH
+import display
 from history_analysis import HistoryPlots
 
 
 # View for when the game is over
 class GameOverView(fv.FadingView):
-    """ View to show when game is over """
+    """View to show when game is over"""
 
     def __init__(self, *args, **kwargs):
-        """ This is run once when we switch to this view """
+        """This is run once when we switch to this view"""
         super().__init__()
         self.texture = kwargs["txtr"]
         self.game_over_text = kwargs["text"]
         self.game_over_xpos = kwargs["xpos"]
         self.game_over_ypos = kwargs["ypos"]
-        self.admonishment = arc.Text(f"You ignored {(~config.df_collision_history['HitType'].str.contains('BLINDER')).sum()}"
-                                     f" warnings.  Why won't you listen?\n\n"
-                                     f"Click to try again, press any key to exit.", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-                                     arc.color.RED, 30, anchor_x="center", multiline=True, width=SCREEN_WIDTH * 0.8)
+        self.admonishment = arc.Text(
+            f"You ignored {(~config.df_collision_history['HitType'].str.contains('BLINDER')).sum()}"
+            f" warnings.  Why won't you listen?\n\n"
+            f"Click to try again, press any key to exit.",
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT / 2,
+            arc.color.RED,
+            30,
+            anchor_x="center",
+            multiline=True,
+            width=SCREEN_WIDTH * 0.8,
+        )
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
         arc.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
         hcht = HistoryPlots()
-        self.hist_plot_line = hcht.get_plot_img(
-            df=config.df_collision_history, plottype="line")
-        self.hist_plot_pie = hcht.get_plot_img(
-            df=config.df_collision_history, plottype="pie")
+        self.hist_plot_line = hcht.get_plot_img(df=config.df_collision_history, plottype="line")
+        self.hist_plot_pie = hcht.get_plot_img(df=config.df_collision_history, plottype="pie")
 
         print(f"{self.hist_plot_line=}")
 
@@ -40,12 +46,9 @@ class GameOverView(fv.FadingView):
     def on_draw(self):
         """Draw this view."""
         self.clear()
-        self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-                                SCREEN_WIDTH, SCREEN_HEIGHT)
-        display_headline_text(
-            text=self.game_over_text,
-            xpos=self.game_over_xpos,
-            ypos=self.game_over_ypos
+        self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT)
+        display.display_headline_text(
+            text=self.game_over_text, xpos=self.game_over_xpos, ypos=self.game_over_ypos
         )
         self.draw_plots()
         self.admonishment.draw()
@@ -62,11 +65,16 @@ class GameOverView(fv.FadingView):
 
     def draw_plots(self):
         pass
+        print("DIDN'T PASS")
         pie_texture = arc.Texture("Pie Chart", self.hist_plot_pie)
         line_texture = arc.Texture("Time Line", self.hist_plot_line)
-        arc.draw_scaled_texture_rectangle(center_x=175, center_y=SCREEN_HEIGHT - 175,
-                                          texture=pie_texture,
-                                          scale=1, alpha=100)
-        arc.draw_scaled_texture_rectangle(center_x=SCREEN_WIDTH / 2, center_y=SCREEN_HEIGHT / 6,
-                                          texture=line_texture,
-                                          scale=1.5, alpha=100)
+        arc.draw_scaled_texture_rectangle(
+            center_x=175, center_y=SCREEN_HEIGHT - 175, texture=pie_texture, scale=1, alpha=100
+        )
+        arc.draw_scaled_texture_rectangle(
+            center_x=SCREEN_WIDTH / 2,
+            center_y=SCREEN_HEIGHT / 6,
+            texture=line_texture,
+            scale=1.5,
+            alpha=100,
+        )

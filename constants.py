@@ -29,14 +29,14 @@ BLINDER_DEFAULT_ICON = "images/rose.png"
 BLINDER_SCALE = 0.1
 BLINDER_SPAWN_RATE = 0.01
 BLINDER_HIT_TEXT_COLOR = COLORS["PINK"]
-BLINDER_HIT_FONT = 'comic'
+BLINDER_HIT_FONT = "comic"
 BLINDER_HIT_TEXT_PERMANENCE = 15
 BLINDER_HIT_TEXT_DECAY_RATE = 0.1
 BLINDER_CT_START = 1
 
 """CARBINGER PARAMETERS"""
 STARTING_CAR_COUNT = 1
-CAR_SCALE = .05
+CAR_SCALE = 0.05
 CAR_DEFAULT_ICON = "images/carbinger-light.png"
 CAR_SPAWN_RATE = 2
 MAX_CAR_CT = 50
@@ -46,7 +46,7 @@ CAR_HIT_TEXT_DECAY_RATE = 0.2
 
 @dataclass
 class CarSpec:
-    objecttype: str = 'climate_change'
+    objecttype: str = "climate_change"
     color: (int, int, int) = COLORS["RED"]
     speed: float = 6
     icon: str = "images/carbinger-light.png"
@@ -56,12 +56,14 @@ class CarSpec:
  Icons should be facing to the left if they have left-right orientation
  Horseman icon source: https://www.pngegg.com/en/png-cevbs
 """
-CAR_TYPES = [CarSpec("climate_change",  COLORS["RED"],          6, CAR_DEFAULT_ICON),
-             CarSpec("famine",          COLORS["BLACK"],        1, CAR_DEFAULT_ICON),
-             CarSpec("nuclear_war",     COLORS["ORANGE"],        5, CAR_DEFAULT_ICON),
-             CarSpec("pandemic",        COLORS["CHARTREUSE"], 4, CAR_DEFAULT_ICON),
-             CarSpec("machine_superintelligence", COLORS["INDIGO"], 3, CAR_DEFAULT_ICON),
-             CarSpec("crop_failure",    COLORS["BROWN"],  2, CAR_DEFAULT_ICON)]
+CAR_TYPES = [
+    CarSpec("climate_change", COLORS["RED"], 6, CAR_DEFAULT_ICON),
+    CarSpec("famine", COLORS["BLACK"], 1, CAR_DEFAULT_ICON),
+    CarSpec("nuclear_war", COLORS["ORANGE"], 5, CAR_DEFAULT_ICON),
+    CarSpec("pandemic", COLORS["CHARTREUSE"], 4, CAR_DEFAULT_ICON),
+    CarSpec("machine_superintelligence", COLORS["INDIGO"], 3, CAR_DEFAULT_ICON),
+    CarSpec("crop_failure", COLORS["BROWN"], 2, CAR_DEFAULT_ICON),
+]
 
 """ --- Explosion Particles Related"""
 
@@ -77,11 +79,13 @@ PARTICLE_COUNT = 20
 # How big the particle
 PARTICLE_RADIUS = 3
 # Possible particle colors
-PARTICLE_COLORS = [COLORS["CRIMSON"],
-                   COLORS["COQUELICOT"],
-                   COLORS["LAVA"],
-                   COLORS["KU_CRIMSON"],
-                   COLORS["DARK_TANGERINE"]]
+PARTICLE_COLORS = [
+    COLORS["CRIMSON"],
+    COLORS["COQUELICOT"],
+    COLORS["LAVA"],
+    COLORS["KU_CRIMSON"],
+    COLORS["DARK_TANGERINE"],
+]
 # Chance we'll flip the texture to white and make it 'sparkle'
 PARTICLE_SPARKLE_CHANCE = 0.02
 # --- Smoke
@@ -116,7 +120,7 @@ KEYWORDS = {
     },
     "nuclear_war": {
         "path": "/nuclear-weapons",
-        "keywords": ["nuclear", "radioactive", "russia", "ukraine", "north korea"]
+        "keywords": ["nuclear", "radioactive", "russia", "ukraine", "north korea"],
     },
     "pandemic": {
         "path": "/health",
@@ -124,11 +128,22 @@ KEYWORDS = {
     },
     "machine_superintelligence": {
         "path": "/artificial-intelligence",
-        "keywords": ["artificial-inte", "artificial intelligence", "robot", "superintelligen"]
+        "keywords": ["artificial-inte", "artificial intelligence", "robot", "superintelligen"],
     },
     "crop_failure": {
         "path": "/agriculture",
-        "keywords": ["failure", "drought", "flood", "struggle", "pest",
-                     "locust", "shortage", "flu", "disease", "rot",
-                     "blight"]},
+        "keywords": [
+            "failure",
+            "drought",
+            "flood",
+            "struggle",
+            "pest",
+            "locust",
+            "shortage",
+            "flu",
+            "disease",
+            "rot",
+            "blight",
+        ],
+    },
 }

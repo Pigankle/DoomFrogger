@@ -1,15 +1,13 @@
-"""
-Car Factory...> Makes Cars and puts them where they belong.
-"""
+"""Car Factory...> Makes Cars and puts them where they belong."""
 from random import randint
 import arcade
 from carbinger import Carbinger
-from constants import *
+from constants import CAR_TYPES, RESOURCE_DIR, SCREEN_HEIGHT, SCREEN_WIDTH, CAR_SCALE
 
 
 class CarFactory:
     def build_car():
-        """create a new random carbinger at a random side of the board"""
+        """Create a new random carbinger at a random side of the board."""
         ind = randint(0, len(CAR_TYPES) - 1)
         new_car = Carbinger()
         new_car.objecttype = CAR_TYPES[ind].objecttype
