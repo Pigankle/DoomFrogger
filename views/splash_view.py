@@ -1,6 +1,6 @@
 import arcade
 from views.game_view import GameView
-from newsAndCollisions.get_news import request_all_articles, stock_all_articles
+from newsTextAndPlots.get_news import request_all_articles, stock_all_articles
 from configuration.constants import RESOURCE_DIR, SPLASH_IMAGE, NUM_ARTICLES, SCREEN_HEIGHT, SCREEN_WIDTH
 import views.fading_view as fv
 from configuration import config

@@ -3,8 +3,8 @@ from configuration import config
 import views.fading_view as fv
 import views.splash_view as sv
 from configuration.constants import SCREEN_HEIGHT, SCREEN_WIDTH
-from newsAndCollisions import display
-from newsAndCollisions.history_analysis import HistoryPlots
+from newsTextAndPlots import display
+from newsTextAndPlots.history_analysis import HistoryPlots
 
 
 # View for when the game is over

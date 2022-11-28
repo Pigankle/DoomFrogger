@@ -8,8 +8,8 @@ from configuration import config
 import views.fading_view as fading_view
 from customSprites import player
 from customSprites.car_factory import CarFactory
-from newsAndCollisions.get_news import replenish_articles
-from newsAndCollisions import display
+from newsTextAndPlots.get_news import replenish_articles
+from newsTextAndPlots import display
 from views.game_over_view import GameOverView
 from configuration.constants import (
     TILE_SCALING,
