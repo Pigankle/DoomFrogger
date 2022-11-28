@@ -15,14 +15,12 @@ from configuration.constants import (
     TILE_SCALING,
     SCREEN_HEIGHT,
     STARTING_CAR_COUNT,
-    SCREEN_HEIGHT,
     SCREEN_WIDTH,
     MAX_CAR_CT,
     CAR_SPAWN_RATE,
     PARTICLE_COUNT,
     CAR_HIT_TEXT_PERMANENCE,
-    CAR_HIT_TEXT_DECAY_RATE,
-    BLINDER_HIT_TEXT_DECAY_RATE,
+    COLLISION_TEXT_DECAY_RATE,
     BLINDER_HIT_TEXT_PERMANENCE,
     BLINDER_HIT_TEXT_COLOR,
     BLINDER_SPAWN_RATE,
@@ -49,7 +47,7 @@ class GameView(fading_view.FadingView):
         self.player_list = None
         self.carbinger_list = None
         self.blinder_list = None
-        self.collision_text_list = []
+        self.collision_text_list = None
         self.explosions_list = None
 
         # Separate variable that holds the player sprite
@@ -71,6 +69,7 @@ class GameView(fading_view.FadingView):
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
         self.carbinger_list = arcade.SpriteList(use_spatial_hash=True)
         self.blinder_list = arcade.SpriteList(use_spatial_hash=True)
+        self.collision_text_list = arcade.SpriteList()
         self.explosions_list = arcade.SpriteList()
         # Set up the player, specifically placing it at these coordinates.
         self.player_sprite = player.Player()
@@ -120,26 +119,24 @@ class GameView(fading_view.FadingView):
 
     def collision_text_draw(self):
         """Display text on collision."""
-        for txt in self.collision_text_list:
-            display.display_collision_text(
-                text=txt[0], xpos=txt[1], ypos=txt[2], fnt_sz=txt[3], clr=txt[4]
-            )
-            txt[3] -= txt[5]
-            if txt[3] < 3:
-                self.collision_text_list.remove(txt)
+        for txtSprite in self.collision_text_list:
+            txtSprite.draw()
+            txtSprite.scale -= COLLISION_TEXT_DECAY_RATE
+            if txtSprite.scale < 0.3:
+                self.collision_text_list.remove(txtSprite)
 
     def on_key_press(self, key, modifiers):
-        """Called whenever a key is pressed."""
+        """Call whenever a key is pressed."""
         if key in config.PLAYER_MOVE_KEYS:
             self.player_sprite.move_keydown(key)
 
     def on_key_release(self, key, modifiers):
-        """Called when the user releases a key."""
+        """Call when the user releases a key."""
         if key in config.PLAYER_MOVE_KEYS:
             self.player_sprite.move_keyup(key)
 
     def update_cars(self):
-        """Logic for moving cars and expiring offscreen cars"""
+        """Apply logic for moving cars and expiring offscreen cars."""
         for car in self.carbinger_list:
             car.car_move()
             car.cooldown -= 1
@@ -150,7 +147,7 @@ class GameView(fading_view.FadingView):
                         self.carbinger_list.append(CarFactory.build_car())
 
     def update_blinders(self):
-        """Logic for moving cars and expiring offscreen cars"""
+        """Apply logic for moving blinders and expiring offscreen cars."""
         for bl in self.blinder_list:
             bl.blinder_move()
             if (
@@ -175,14 +172,13 @@ class GameView(fading_view.FadingView):
                 self.player_sprite.blinder_count += 1
                 bl.remove_from_sprite_lists()
                 self.collision_text_list.append(
-                    [
-                        str(self.player_sprite.blinder_count),
-                        bl.center_x,
-                        bl.center_y,
-                        BLINDER_HIT_TEXT_PERMANENCE,
-                        BLINDER_HIT_TEXT_COLOR,
-                        BLINDER_HIT_TEXT_DECAY_RATE,
-                    ]
+                    arcade.create_text_sprite(
+                        text=str(self.player_sprite.blinder_count),
+                        start_x=bl.center_x,
+                        start_y=bl.center_y,
+                        color=BLINDER_HIT_TEXT_COLOR,
+                        font_size=BLINDER_HIT_TEXT_PERMANENCE,
+                    )
                 )
 
         # Process_car_collisions
@@ -195,14 +191,13 @@ class GameView(fading_view.FadingView):
                 # removed\n{self.player_sprite.blinder_count}"
                 collision_string = f"{nf.objecttype.upper().replace('_' , ' ')}\n{article.title()}"
                 self.collision_text_list.append(
-                    [
-                        collision_string,
-                        nf.center_x,
-                        nf.center_y,
-                        CAR_HIT_TEXT_PERMANENCE,
-                        nf.color,
-                        CAR_HIT_TEXT_DECAY_RATE,
-                    ]
+                    arcade.create_text_sprite(
+                        text=collision_string,
+                        start_x=nf.center_x,
+                        start_y=nf.center_y,
+                        color=nf.color,
+                        font_size=CAR_HIT_TEXT_PERMANENCE,
+                    )
                 )
 
                 self.player_sprite.update_history(
@@ -220,6 +215,7 @@ class GameView(fading_view.FadingView):
                     self.end_game(nf)
 
     def car_explosion(self, nf):
+        """Apply logic for explosions."""
         for i in range(PARTICLE_COUNT):
             particle = Particle(self.explosions_list)
             particle.position = nf.position
