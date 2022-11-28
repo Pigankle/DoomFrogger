@@ -1,10 +1,10 @@
 import arcade
-from game_view import GameView
-from get_news import request_all_articles, stock_all_articles
-from constants import RESOURCE_DIR, SPLASH_IMAGE, NUM_ARTICLES, SCREEN_HEIGHT, SCREEN_WIDTH
-import fading_view as fv
-import config
-from how_to_view import HowToView
+from views.game_view import GameView
+from newsAndCollisions.get_news import request_all_articles, stock_all_articles
+from configuration.constants import RESOURCE_DIR, SPLASH_IMAGE, NUM_ARTICLES, SCREEN_HEIGHT, SCREEN_WIDTH
+import views.fading_view as fv
+from configuration import config
+from views.how_to_view import HowToView
 
 
 class SplashView(fv.FadingView):

@@ -1,7 +1,7 @@
 """Create a blinder object."""
 from random import uniform, randint
 import arcade
-from constants import RESOURCE_DIR, BLINDER_DEFAULT_ICON, BLINDER_SCALE, SCREEN_HEIGHT, SCREEN_WIDTH
+from configuration.constants import RESOURCE_DIR, BLINDER_DEFAULT_ICON, BLINDER_SCALE, SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 class Blinder(arcade.Sprite):

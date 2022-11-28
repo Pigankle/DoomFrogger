@@ -1,10 +1,10 @@
 import arcade as arc
-import config
-import fading_view as fv
-import splash_view as sv
-from constants import SCREEN_HEIGHT, SCREEN_WIDTH
-import display
-from history_analysis import HistoryPlots
+from configuration import config
+import views.fading_view as fv
+import views.splash_view as sv
+from configuration.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from newsAndCollisions import display
+from newsAndCollisions.history_analysis import HistoryPlots
 
 
 # View for when the game is over
@@ -47,7 +47,7 @@ class GameOverView(fv.FadingView):
     def on_draw(self):
         """Draw this view."""
         self.clear()
-        self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,0, 150)
         display.display_headline_text(
             text=self.game_over_text, xpos=self.game_over_xpos, ypos=self.game_over_ypos
         )
@@ -70,7 +70,7 @@ class GameOverView(fv.FadingView):
         pie_texture = arc.Texture("Pie Chart", self.hist_plot_pie)
         line_texture = arc.Texture("Time Line", self.hist_plot_line)
         arc.draw_scaled_texture_rectangle(
-            center_x=175, center_y=SCREEN_HEIGHT - 175, texture=pie_texture, scale=1, alpha=100
+            center_x=175, center_y=SCREEN_HEIGHT - 175, texture=pie_texture, scale=1, alpha=200
         )
         # TODO add plot labels
         arc.draw_scaled_texture_rectangle(
@@ -78,5 +78,5 @@ class GameOverView(fv.FadingView):
             center_y=SCREEN_HEIGHT / 8,
             texture=line_texture,
             scale=1.5,
-            alpha=100,
+            alpha=200,
         )

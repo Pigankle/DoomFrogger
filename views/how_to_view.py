@@ -1,7 +1,7 @@
-from game_view import GameView
-import splash_view
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT
-import fading_view as fv
+from views.game_view import GameView
+import views.splash_view as splash_view
+from configuration.constants import SCREEN_WIDTH, SCREEN_HEIGHT
+import views.fading_view as fv
 import arcade
 
 

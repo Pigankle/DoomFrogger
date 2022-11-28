@@ -5,7 +5,7 @@ import arcade
 import math
 import pandas as pd
 from time import time
-from constants import (
+from configuration.constants import (
     RESOURCE_DIR,
     PLAYER_TEXTURE,
     PLAYER_STARTING_POSITION,
@@ -16,7 +16,7 @@ from constants import (
     UPDATES_PER_FRAME,
 )
 
-import config
+from configuration import config
 
 
 class Player(arcade.Sprite):

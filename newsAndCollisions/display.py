@@ -4,7 +4,7 @@ Create a display object so we can format text output.
 use https://api.arcade.academy/en/development/api_docs/api/text.html?highlight=text
 """
 from arcade import Text
-from constants import FONT_SIZE, FONT_COLOR, TEXT_WIDTH
+from configuration.constants import FONT_SIZE, FONT_COLOR, TEXT_WIDTH
 
 
 # Function to display text output at specified position

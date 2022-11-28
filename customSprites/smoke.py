@@ -1,5 +1,5 @@
 import arcade
-from constants import (
+from configuration.constants import (
     SMOKE_RISE_RATE,
     PARTICLE_FADE_RATE,
     SMOKE_START_SCALE,

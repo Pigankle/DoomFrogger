@@ -1,8 +1,8 @@
 import arcade
 import os
 import ctypes
-from constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE
-from splash_view import SplashView
+from configuration.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE
+from views.splash_view import SplashView
 
 
 # from instruction_view import InstructionView

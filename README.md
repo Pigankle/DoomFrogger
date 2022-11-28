@@ -18,7 +18,7 @@ inconvenient truths zipping across.  They can really sting!
 ## BACKGROUND:
 This project came about as an extension of a fairly simple Class-creating exercise in the Udemy 100 Days of Code course.  The original project was meant to be created using turtle graphics, and had black rectangular cars moving left to right and allowed the frog to move forward and left/right (but not at angles or backwards).
 
-@Pigankle shared the simple project with @Sashkaw ![img.png](genesis.png)
+@Pigankle shared the simple project with @Sashkaw ![img.png](images/genesis.png)
 
 Sashkaw took the challenge, and developed the webscraping module to display thematic headlines.  (We decided not to create the tie-in crisis-denying bots in order to prevent real-world harm)  
 

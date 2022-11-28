@@ -1,8 +1,8 @@
 """Car Factory...> Makes Cars and puts them where they belong."""
 from random import randint
 import arcade
-from carbinger import Carbinger
-from constants import CAR_TYPES, RESOURCE_DIR, SCREEN_HEIGHT, SCREEN_WIDTH, CAR_SCALE
+from customSprites.carbinger import Carbinger
+from configuration.constants import CAR_TYPES, RESOURCE_DIR, SCREEN_HEIGHT, SCREEN_WIDTH, CAR_SCALE
 
 
 class CarFactory:

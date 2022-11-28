@@ -4,7 +4,7 @@ Create a car object so we can store more attributes about the type of threat rep
 """
 import math
 import arcade
-from constants import RESOURCE_DIR, CAR_DEFAULT_ICON, CAR_SCALE, SCREEN_HEIGHT, SCREEN_WIDTH
+from configuration.constants import RESOURCE_DIR, CAR_DEFAULT_ICON, CAR_SCALE, SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 class Carbinger(arcade.Sprite):

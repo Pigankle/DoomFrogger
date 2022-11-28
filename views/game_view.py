@@ -2,16 +2,16 @@ import arcade
 
 from random import uniform
 from arcade import get_image
-
-import config
-import fading_view
-import player
 from time import time
-from car_factory import CarFactory
-from get_news import replenish_articles
-import display
-from game_over_view import GameOverView
-from constants import (
+
+from configuration import config
+import views.fading_view as fading_view
+from customSprites import player
+from customSprites.car_factory import CarFactory
+from newsAndCollisions.get_news import replenish_articles
+from newsAndCollisions import display
+from views.game_over_view import GameOverView
+from configuration.constants import (
     TILE_SCALING,
     SCREEN_HEIGHT,
     STARTING_CAR_COUNT,
@@ -28,9 +28,9 @@ from constants import (
     BLINDER_SPAWN_RATE,
     RESOURCE_DIR,
 )
-from blinders import Blinder
-from smoke import Smoke
-from particle import Particle
+from customSprites.blinders import Blinder
+from customSprites.smoke import Smoke
+from customSprites.particle import Particle
 
 # import fading_view as fv
 

@@ -1,6 +1,6 @@
 from pathlib import Path
 from dataclasses import dataclass
-from color_table import COLORS
+from configuration.color_table import COLORS
 
 """WINDOW PARAMETERS"""
 SCREEN_WIDTH = 1000
@@ -13,8 +13,8 @@ FONT_SIZE = 16
 FONT_COLOR = (255, 255, 255)
 TEXT_WIDTH = 200
 GAME_OVER_IMAGE_PATH = "images/game_over.png"
-RESOURCE_DIR = Path(__file__).parent
-HISTORY_FILE = "collision history.csv"
+RESOURCE_DIR = Path(__file__).parent.parent
+HISTORY_FILE = "../collision history.csv"
 """ PLAYER BEHAVIOR"""
 
 PLAYER_MOVEMENT_SPEED = 5

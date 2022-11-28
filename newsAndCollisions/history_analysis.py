@@ -1,8 +1,8 @@
 import io
 import matplotlib.pyplot as plt
 from PIL import Image
-from constants import CAR_TYPES, SCREEN_HEIGHT, SCREEN_WIDTH
-import config
+from configuration.constants import CAR_TYPES, SCREEN_HEIGHT, SCREEN_WIDTH
+from configuration import config
 
 
 class HistoryPlots:

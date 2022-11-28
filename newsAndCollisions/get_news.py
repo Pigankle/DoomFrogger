@@ -6,7 +6,7 @@ import re
 from bs4 import BeautifulSoup
 from dataclasses import dataclass, field
 from collections import deque
-from constants import KEYWORDS, NUM_ARTICLES, SEARCH_URL
+from configuration.constants import KEYWORDS, NUM_ARTICLES, SEARCH_URL
 
 # Dictionary to save all the news stories for a given search path
 parsed_articles = {

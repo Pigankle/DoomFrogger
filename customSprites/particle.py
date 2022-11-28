@@ -1,7 +1,7 @@
 import random
 import math
 import arcade
-from constants import (
+from configuration.constants import (
     PARTICLE_SPEED_RANGE,
     PARTICLE_MIN_SPEED,
     PARTICLE_COLORS,
@@ -11,7 +11,7 @@ from constants import (
     PARTICLE_SPARKLE_CHANCE,
     SMOKE_CHANCE,
 )
-from smoke import Smoke
+from customSprites.smoke import Smoke
 
 
 class Particle(arcade.SpriteCircle):
