@@ -49,12 +49,13 @@ class GameOverView(fv.FadingView):
 
         df_threats = self.df_result[self.df_result["HitType"] != "Blinder"]
         for index, row in df_threats.iterrows():
+            print(row["Color"])
             newsprite = arc.create_text_sprite(
                 text=row["Text"],
                 start_x=row["PosX"],
                 start_y=row["PosY"],
                 font_size=FONT_SIZE,
-                color=arc.color.BLACK,
+                color=row["Color"],
             )
             newsprite.scale = 0.1
             self.warning_list.append(newsprite)

@@ -1,10 +1,12 @@
 import arcade
+from ttictoc import tic, toc
 from views.game_view import GameView
 from newsTextAndPlots.get_news import request_all_articles, stock_all_articles
 from configuration.constants import RESOURCE_DIR, SPLASH_IMAGE, NUM_ARTICLES, SCREEN_HEIGHT, SCREEN_WIDTH
 import views.fading_view as fv
 from configuration import config
 from views.how_to_view import HowToView
+
 
 
 class SplashView(fv.FadingView):
@@ -15,11 +17,14 @@ class SplashView(fv.FadingView):
         super().__init__()
         # Load screenshot of game over state
         self.texture = arcade.load_texture(RESOURCE_DIR / SPLASH_IMAGE)
+        print("starting to get articles")
+        tic()
         if len(config.saved_articles) == 0:
             # Request article text and stored parsed html
             request_all_articles()
             # Find thematic articles from parsed html and save in list
             config.saved_articles = stock_all_articles(num_articles=NUM_ARTICLES)
+        print(f"{toc()=}")
         self.next_view = GameView
 
     def on_draw(self):

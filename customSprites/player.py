@@ -112,6 +112,7 @@ class Player(arcade.Sprite):
                         "onscreen_bl_count": os_bl_count,
                         "Onscreen_Car_count": nf_count,
                         "Text": txt,
+                        "Color": [nf.color]
                     },
                     index=[0],
                 ),
