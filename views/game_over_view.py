@@ -4,8 +4,8 @@ from configuration import config
 import views.fading_view as fv
 import views.splash_view as sv
 from configuration.constants import SCREEN_HEIGHT, SCREEN_WIDTH, FONT_SIZE
-from newsTextAndPlots import display
 from newsTextAndPlots.history_analysis import HistoryPlots
+from customSprites.carbinger import Carbinger
 
 
 # View for when the game is over
@@ -15,15 +15,10 @@ class GameOverView(fv.FadingView):
     def __init__(self, *args, **kwargs):
         """Create view."""
         super().__init__()
-        self.texture = kwargs["txtr"]
-        self.game_over_text = kwargs["text"]
-        self.game_over_xpos = kwargs["xpos"]
-        self.game_over_ypos = kwargs["ypos"]
+
         self.df_result = config.df_collision_history
         self.admonishment = arc.Text(
-            f"You ignored {(~self.df_result['HitType'].str.contains('Blinder')).sum()}"
-            f" warnings.  Why won't you listen?\n\n"
-            f"Click to try again, press 'q' to exit.",
+            f"Things didn't work out so well for you.",
             SCREEN_WIDTH / 2,
             SCREEN_HEIGHT / 2,
             arc.color.RED,
@@ -33,35 +28,33 @@ class GameOverView(fv.FadingView):
             width=SCREEN_WIDTH * 0.8,
         )
         self.active_warning = None
-        self.warning_list = []
         self.warning_growing = True
 
         arc.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
         hcht = HistoryPlots()
         self.hist_plot_line = hcht.get_plot_img(df=self.df_result, plottype="line")
         self.hist_plot_pie = hcht.get_plot_img(df=self.df_result, plottype="pie")
-        print(f"{self.hist_plot_line=}")
-        self.setup()
-
-    def setup(self):
-        """Set up class."""
+        self.car_list = arc.SpriteList()
         self.warning_list = arc.SpriteList()
 
         df_threats = self.df_result[self.df_result["HitType"] != "Blinder"]
         for index, row in df_threats.iterrows():
-            print(row["Color"])
-            newsprite = arc.create_text_sprite(
+            history_text_sprite = arc.create_text_sprite(
                 text=row["Text"],
                 start_x=row["PosX"],
                 start_y=row["PosY"],
                 font_size=FONT_SIZE,
                 color=row["Color"],
             )
-            newsprite.scale = 0.1
-            self.warning_list.append(newsprite)
-        self.active_warning = self.warning_list[0]
-        print(self.active_warning)
+            history_text_sprite.scale = 0.1
+            self.warning_list.append(history_text_sprite)
+
+        # Control Variables
+        self.plot_alpha_incr = 200 / len(df_threats)  # To control the fadein of the plots
+        self.plot_alpha = 10
+        self.threat_iter = -1  # to Aid iterating through threat list
         self.warning_growing = True
+        self.next_warning()
 
     def on_update(self, dt):
         """Process updates."""
@@ -71,16 +64,11 @@ class GameOverView(fv.FadingView):
     def on_draw(self):
         """Draw this view."""
         self.clear()
-        self.texture.draw_sized(
-            SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 150
-        )
-        display.display_headline_text(
-            text=self.game_over_text, xpos=self.game_over_xpos, ypos=self.game_over_ypos
-        )
         self.draw_plots()
         self.admonishment.draw()
         self.update_warning_text()
         self.active_warning.draw()
+        self.car_list.draw()
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """If the user presses the mouse button, re-start the game."""
@@ -98,7 +86,11 @@ class GameOverView(fv.FadingView):
         pie_texture = arc.Texture("Pie Chart", self.hist_plot_pie)
         line_texture = arc.Texture("Time Line", self.hist_plot_line)
         arc.draw_scaled_texture_rectangle(
-            center_x=175, center_y=SCREEN_HEIGHT - 175, texture=pie_texture, scale=1, alpha=200
+            center_x=175,
+            center_y=SCREEN_HEIGHT - 175,
+            texture=pie_texture,
+            scale=1,
+            alpha=self.plot_alpha,
         )
         # TODO add plot labels
         arc.draw_scaled_texture_rectangle(
@@ -106,7 +98,7 @@ class GameOverView(fv.FadingView):
             center_y=SCREEN_HEIGHT / 8,
             texture=line_texture,
             scale=1.5,
-            alpha=200,
+            alpha=self.plot_alpha,
         )
 
     def update_warning_text(self):
@@ -118,5 +110,55 @@ class GameOverView(fv.FadingView):
         else:
             self.active_warning.scale -= 0.005
             if self.active_warning.scale < 0.1:
-                self.warning_growing = True
-                self.active_warning = random.choice(self.warning_list)
+                self.next_warning()
+
+    def next_warning(self):
+        """Create the next warning text sprite and set behavior controls."""
+        self.warning_growing = True
+        self.plot_alpha = min(200, self.plot_alpha + self.plot_alpha_incr)
+
+        self.threat_iter = min(self.threat_iter + 1, len(self.warning_list) - 1)
+        self.active_warning = self.warning_list[self.threat_iter]
+        print(f"{self.active_warning.center_x=}")
+        if len(self.car_list) <= len(self.warning_list):
+            self.car_list.append(
+                self.create_history_car(
+                    self.active_warning.center_x,
+                    self.active_warning.center_y,
+                    self.active_warning.color,
+                )
+            )
+            self.admonishment = arc.Text(
+                f"You ignored {len(self.car_list)-1}"
+                f" warnings. \n\n"
+                f"Click to try again, press 'q' to exit.",
+                SCREEN_WIDTH / 2,
+                SCREEN_HEIGHT / 2,
+                arc.color.RED,
+                30,
+                anchor_x="center",
+                multiline=True,
+                width=SCREEN_WIDTH * 0.8,
+            )
+        else:
+            self.admonishment = arc.Text(
+                f"You ignored {len(self.car_list)-1}"
+                f" warnings.  Why won't you listen?\n\n"
+                f"Click to try again, press 'q' to exit.",
+                SCREEN_WIDTH / 2,
+                SCREEN_HEIGHT / 2,
+                arc.color.RED,
+                30,
+                anchor_x="center",
+                multiline=True,
+                width=SCREEN_WIDTH * 0.8,
+            )
+            self.active_warning = random.choice(self.warning_list)
+
+    def create_history_car(self, center_x, center_y, color):
+        """Create car based on active_warning."""
+        history_car = Carbinger()
+        history_car.color = color
+        history_car.center_x = center_x
+        history_car.center_y = center_y
+        return history_car
