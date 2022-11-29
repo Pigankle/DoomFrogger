@@ -1,7 +1,7 @@
 import arcade
 
 from random import uniform
-from arcade import get_image
+
 from time import time
 
 from configuration import config
@@ -9,7 +9,6 @@ import views.fading_view as fading_view
 from customSprites import player
 from customSprites.car_factory import CarFactory
 from newsTextAndPlots.get_news import replenish_articles
-from newsTextAndPlots import display
 from views.game_over_view import GameOverView
 from configuration.constants import (
     TILE_SCALING,
@@ -57,10 +56,7 @@ class GameView(fading_view.FadingView):
         self.start_time = time()
         # Flag for game status
         self.is_game_over = False
-        # Game over parameters
-        self.game_over_text = "GAME OVER!"
-        self.game_over_xpos = 0
-        self.game_over_ypos = 0
+
         self.article_list = []
 
     def setup(self, *args, **kwargs):
@@ -208,7 +204,7 @@ class GameView(fading_view.FadingView):
                 # Get an article related to the threat, or fetch new ones if no articles exist
 
                 print(
-                    f"Blinder count: {self.player_sprite.blinder_count},\n  collision string: {collision_string}"
+                    f"{self.player_sprite.blinder_count=},\n  {collision_string=}"
                 )
                 self.car_explosion(nf)
                 if self.player_sprite.blinder_count < 1:
@@ -226,10 +222,7 @@ class GameView(fading_view.FadingView):
         self.explosions_list.append(smoke)
 
     def end_game(self, nf=arcade.Sprite):
-        """Set game over message to display at the (x,y) position of the collision."""
-        self.game_over_xpos = nf.center_x
-        self.game_over_ypos = nf.center_y
-        # Set game over flag so we can draw the game over message and stop the game
+        """End Game."""
         self.is_game_over = True
 
     def spawn_blinders(self):
@@ -250,16 +243,8 @@ class GameView(fading_view.FadingView):
         # If game is over, switch to the game over view
         self.spawn_blinders()
         if self.is_game_over:
-            # Take a snapshot of the game state so we can overlay the game over text on top
-            game_over_texture = arcade.Texture("game over screenshot", get_image())
             config.df_collision_history.to_csv(RESOURCE_DIR / "collision history.csv")
-            # Create new game over view using the saved game over parameters
-            view = GameOverView(
-                text=self.game_over_text,
-                xpos=self.game_over_xpos,
-                ypos=self.game_over_ypos,
-                txtr=game_over_texture,
-            )
+            view = GameOverView()
             # Display the game over view
             self.window.show_view(view)
 

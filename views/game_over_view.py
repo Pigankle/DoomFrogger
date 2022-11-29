@@ -119,7 +119,6 @@ class GameOverView(fv.FadingView):
 
         self.threat_iter = min(self.threat_iter + 1, len(self.warning_list) - 1)
         self.active_warning = self.warning_list[self.threat_iter]
-        print(f"{self.active_warning.center_x=}")
         if len(self.car_list) <= len(self.warning_list):
             self.car_list.append(
                 self.create_history_car(
