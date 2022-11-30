@@ -127,7 +127,12 @@ KEYWORDS = {
     },
     "machine_superintelligence": {
         "path": "/artificial-intelligence",
-        "keywords": ["artificial-inte", "artificial intelligence", "robot", "superintelligen"],
+        "keywords": [
+            "artificial-inte",
+            "artificial intelligence",
+            "robot",
+            "superintelligen",
+        ],
     },
     "crop_failure": {
         "path": "/agriculture",
@@ -146,3 +151,25 @@ KEYWORDS = {
         ],
     },
 }
+
+ADMONISHMENTS_LIST = [
+    "This mattered",
+    "Could have paid attention to this.",
+    "Bet you wish you had reacted",
+    "In retrospect, important.",
+    "A sane person would have addressed this.",
+    "Do you care about anything?",
+    "That sounds bad.",
+    "Worst news ever.",
+    "Not fake news, it turns out.",
+    "The ramifications are obvious.",
+    "Consequences are inevitable.",
+    "Don't look away.",
+    "Foreshadowing?",
+    "Speeding down a slippery slope",
+    "Well no duh!",
+    "In addition to everything else",
+    "A non-trivial development",
+    "This donkey is braying.",
+    "What would it have taken to get you to do something?"
+    ]

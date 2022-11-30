@@ -246,6 +246,7 @@ class GameView(fading_view.FadingView):
             config.df_collision_history.to_csv(RESOURCE_DIR / "collision history.csv")
             view = GameOverView()
             # Display the game over view
+            view.setup()
             self.window.show_view(view)
 
 

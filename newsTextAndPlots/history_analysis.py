@@ -25,13 +25,14 @@ class HistoryPlots:
         lbl = [str.replace("_", " ").title() for str in gb_threat.index]
         ax1.axis("equal")
         plt.legend(loc="center", labels=lbl)
+#        plt.show()
         return plt
 
         # %%
 
     def make_blinderct_timeline(self, df):
-
-        px = 0.01  # = 1/plt.rcParams['figure.dpi']
+        print("\n\nMAKING TIMELINE\n\n")
+        px = 0.01
         fig, ax = plt.subplots(figsize=(SCREEN_WIDTH * px * 0.8, SCREEN_HEIGHT * px * 0.1))
         ax.plot(df["Time"], df["PrevBlinderCount"], color="black")
         ax.scatter(
