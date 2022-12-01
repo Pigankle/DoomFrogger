@@ -89,12 +89,13 @@ class GameOverView(fv.FadingView):
     def on_draw(self):
         """Draw this view."""
         self.clear()
-        self.draw_restart_info()
+
         self.draw_plots()
-        self.admonishment.draw()
-        self.update_warning_text()
-        self.active_warning.draw()
         self.car_list.draw()
+        self.draw_restart_info()
+        self.admonishment.draw()
+        self.active_warning.draw()
+
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """If the user presses the mouse button, re-start the game."""
@@ -130,7 +131,7 @@ class GameOverView(fv.FadingView):
         """Grow and Shrink recap text."""
         if self.warning_growing:
             self.active_warning.scale += 0.005
-            if self.active_warning.scale > 1.1:
+            if self.active_warning.scale > 1.5:
                 self.warning_growing = False
         else:
             self.active_warning.scale -= 0.005
