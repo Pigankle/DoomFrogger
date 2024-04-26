@@ -171,5 +171,21 @@ ADMONISHMENTS_LIST = [
     "In addition to everything else",
     "A non-trivial development",
     "This donkey is braying.",
-    "What would it have taken to get you to do something?"
-    ]
+    "What would it have taken to get you to do something?",
+    "Ignorance is bliss, until it isn't.",
+    "It was only a matter of life or death, but sure, skip it.",
+    "Maybe next time, pay attention?",
+    "File this under 'Ignored, with consequences'.",
+    "It screamed importance, you whispered back.",
+    "Wake up call ignored. Enjoy the voicemail.",
+    "Some alerts are more like alarms, eh?",
+    "It’s just the future at stake, carry on then.",
+    "Too subtle for the room, apparently.",
+    "Under your nose, yet over your head.",
+    "Clearly, this wasn’t loud enough for you.",
+    "Let’s just pretend this never happened, shall we?",
+    "Keep overlooking, it’s working out great.",
+    "Silence was apparently the preferred response.",
+    "Act surprised, it suits you."
+]
+
