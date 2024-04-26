@@ -21,9 +21,9 @@ parsed_articles = {
 
 # Create data class for storing type of threat and article headline text
 @dataclass
-class threat_headlines:
+class ThreatHeadlines:
     threat: str = "climate_change"
-    headlines: deque = deque()
+    headlines: deque = field(default_factory=deque)
 
     # Override default __eq__ method for easier comparisons
     def __eq__(self, other):
@@ -36,16 +36,23 @@ class threat_headlines:
 # and save the parsed html reponse
 # Note: Should only need to do this once per day
 def request_articles(theme):
-    # Get url path for theme
-    theme_path = KEYWORDS[theme]["path"]
-    # Make request to URL
-    page = requests.get(f"{SEARCH_URL}{theme_path}")
-    # Parse the html response with BeautifulSoup
-    soup = BeautifulSoup(page.content, "html.parser")
-    # Get story headings
-    articles = soup.find_all("a", attrs={"data-key": "card-headline"})
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+    }
+    try:
+        theme_path = KEYWORDS[theme]["path"]
+        print(f"{theme_path=}")
+        page = requests.get(f"{SEARCH_URL}{theme_path}", headers=headers)
+        page.raise_for_status()  # Raises an exception for HTTP codes 400 and above
+        soup = BeautifulSoup(page.content, "html.parser")
+        articles = soup.find_all("span", class_="PagePromoContentIcons-text")
+        print(f"{articles=}")
+        return articles
+    except requests.RequestException as e:
+        print(f"Failed to fetch articles for theme {theme}: {e}")
+        return []
 
-    return articles
+
 
 
 # Function to request all stories for all themes
@@ -99,7 +106,7 @@ def stock_all_articles(num_articles):
         # Get an article related to a theme, store the theme and article headline in a
         # threat_headline object, and append the stored object to the list of saved objects
         saved_headlines.append(
-            threat_headlines(theme, find_thematic_article(theme=theme, num_articles=num_articles))
+            ThreatHeadlines(theme, find_thematic_article(theme=theme, num_articles=num_articles))
         )
 
     return saved_headlines
