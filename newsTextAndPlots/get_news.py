@@ -64,33 +64,28 @@ def request_all_articles():
         parsed_articles[theme] = request_articles(theme)
 
 
-# Function to search through saved articles and find matches for a given theme
-# Returns a deque with story headlines
+def insert_newlines(text, word_limit=10):
+    words = text.split()
+    # Insert a newline character after every `word_limit` words
+    for i in range(word_limit, len(words), word_limit):
+        words[i] = '\n   ' + words[i]
+    return ' '.join(words)
+
 def find_thematic_article(theme, num_articles, stored_headlines=None):
-    # If no stored_headlines parameter has been passed to the function, create a new
-    # deque to hold the headlines
     if stored_headlines is None:
         stored_headlines = deque()
-    # Counter to keep track of how many articles we have retrieved
     article_counter = 1
-    # Loop through all stories, and extract any story headlines
-    # if they contain any of the keywords for a given theme
     for idx, h in enumerate(parsed_articles[theme]):
         if article_counter > num_articles:
             break
-        # If the story headline contains any of the keywords for the theme,
-        # then save the headline
-        elif any(word.upper() in h.text.upper() for word in KEYWORDS[theme]["keywords"]):
+        if any(word.upper() in h.text.upper() for word in KEYWORDS[theme]["keywords"]):
+            formatted_headline = insert_newlines(h.text)  # Format the headline to insert newlines
             print(f"Loading article #{article_counter}...\n")
-            # Add the headline text to the deque
-            stored_headlines.append(h.text)
-            # Remove the article from the collection of parsed html
-            # so that we don't load any duplicate articles
-            parsed_articles[theme].pop(idx)
-            # Increment the article counter
+            stored_headlines.append(formatted_headline)
+            parsed_articles[theme].pop(idx)  # Remove the article to avoid duplicates
             article_counter += 1
-
     return stored_headlines
+
 
 
 # Function to get thematicx articles for all keywords and save them for use in the game
